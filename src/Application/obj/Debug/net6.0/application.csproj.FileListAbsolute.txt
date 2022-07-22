@@ -1,0 +1,15 @@
+D:\Learning\Projects\IT-story\src\Application\bin\Debug\net6.0\application.deps.json
+D:\Learning\Projects\IT-story\src\Application\bin\Debug\net6.0\application.dll
+D:\Learning\Projects\IT-story\src\Application\bin\Debug\net6.0\application.pdb
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\application.csproj.AssemblyReference.cache
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\application.GeneratedMSBuildEditorConfig.editorconfig
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\application.AssemblyInfoInputs.cache
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\application.AssemblyInfo.cs
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\application.csproj.CoreCompileInputs.cache
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\application.dll
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\refint\application.dll
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\application.pdb
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\ref\application.dll
+D:\Learning\Projects\IT-story\src\Application\bin\Debug\net6.0\domain.dll
+D:\Learning\Projects\IT-story\src\Application\bin\Debug\net6.0\domain.pdb
+D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\application.csproj.CopyComplete

@@ -1,0 +1,16 @@
+@host=https://localhost:7210
+
+POST {{host}}/auth/register
+Content-Type: application/json
+
+{
+    "username": "AlexSmith",
+    "email": "test@email.com",
+    "password": "testPassword",
+    "confirmPassword": "testPassword",
+    "firstName": "Alex",
+    "lastName": "Smith",
+    "status": "student"
+}
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZ2l2ZW5fbmFtZSI6IkFsZXgiLCJmYW1pbHlfbmFtZSI6IlNtaXRoIiwianRpIjoiOTUyYzI4MTUtMWIyMC00NzVlLTkxM2MtMDk3Y2M1ZTEzMGVmIiwiZXhwIjoxNjU4NjA2MjQzLCJpc3MiOiJJVC1zdG9yeSJ9.pur0eREaYyPzAJ7ey_oZb6PVMdT03RkChHOBKK7baEI
