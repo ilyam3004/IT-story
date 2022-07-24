@@ -6,6 +6,8 @@ using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Infrastructure.Presistence;
 using Application.Common.Interfaces.Persistence;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
@@ -21,7 +23,8 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         
         services.AddScoped<IUserRepository, UserRepository>();
-        
+
+        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
         return services;
     }
 }

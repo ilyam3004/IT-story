@@ -17,51 +17,35 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<AuthenticationResult> Register(string username, string email, string password, string confirmPassword, string firstName, string lastName, string status)
     {   
-        //1. Validate the user doesn't exist
-        if(_userRepository.GetByEmail(email) is not null)
-            throw new Exception("User already exists");
         
-
-        //2. Create user (Generate ID)
-        var user = new User()
+        var user = new User
         {
-            firstName = firstName,
-            lastName = lastName,
-            email = email,
-            status = status,
-            username = username,
-            password = password
+            username = username, 
+            email = email, 
+            password = password, 
+            firstName = firstName, 
+            lastName = lastName, 
+            status = status
         };
 
-        _userRepository.Add(user);
+        await _userRepository.Add(user);
 
-        //3. Generate token
-        
-        //TODO replace 1 with user id from database
-        var token = _jwtTokenGenerator.GenerateToken(user);
-        
         return new AuthenticationResult
         {
             user = user,
-            token = token
+            token = _jwtTokenGenerator.GenerateToken(user)
         };
     }
 
     public async Task<AuthenticationResult> Login(string email, string password)
     {
 
-        if (_userRepository.GetByEmail(email) is not User user)
-            throw new Exception("User with this email does not exist");
-        
-        if (user.password != password)
-            throw new Exception("Incorrect password");
-
-        var token = _jwtTokenGenerator.GenerateToken(user);
+        var user = await _userRepository.GetByEmail(email);
         
         return new AuthenticationResult
         {
             user = user,
-            token = token
+            token = "toked"
         };
     }
 }

@@ -4,6 +4,6 @@ namespace Application.Common.Interfaces.Persistence;
 
 public interface IUserRepository
 {
-    User? GetByEmail(string email);
-    void Add(User user);
+    Task<User?> GetByEmail(string email);
+    Task Add(User user);
 }

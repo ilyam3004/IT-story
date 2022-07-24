@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Contracts.Authentication;
 using Application.Services;
+using Domain.Entities;
+using Application.Common.Interfaces.Persistence;
 
 namespace Api.Controllers;
 
@@ -26,17 +28,8 @@ public class AuthenticationController : ControllerBase
             request.firstName, 
             request.lastName, 
             request.status);
-
-        return Ok(new AuthenticationResponse
-        {
-            id = authResult.user.id,
-            token = authResult.token,
-            username = authResult.user.username,
-            email = authResult.user.email,
-            firstName = authResult.user.firstName,
-            lastName = authResult.user.lastName,
-            status = authResult.user.status
-        });
+            
+        return Ok();
     }
     
 

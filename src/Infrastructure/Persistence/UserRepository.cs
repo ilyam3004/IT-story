@@ -1,18 +1,28 @@
 using Application.Common.Interfaces.Persistence;
 using Domain.Entities;
+using Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Presistence;
 
 public class UserRepository : IUserRepository
 {
-    //TODO Implement Db Context and add then implement IUserRepository
-    User? IUserRepository.GetByEmail(string email)
+    private readonly ApplicationDbContext _db;
+
+    public UserRepository(ApplicationDbContext context)
     {
-        throw new NotImplementedException();
+        _db = context;
     }
 
-    public void Add(User user)
+    public async Task<User?> GetByEmail(string email)
     {
-        throw new NotImplementedException();
+        var finduser = await _db.Users.FirstOrDefaultAsync(user => user.email == email);
+        return finduser;
+    }
+
+    public async Task Add(User user)
+    {
+        await _db.Users.AddAsync(user);
+        await _db.SaveChangesAsync();
     }
 }
