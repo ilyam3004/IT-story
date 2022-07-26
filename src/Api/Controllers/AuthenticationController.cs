@@ -28,7 +28,7 @@ public class AuthenticationController : ApiController
             request.status);
         
         return authResult.Match(
-            authResult => Ok(MapAuthResult(authResult)),
+            authenticationResult => Ok(MapAuthResult(authenticationResult)),
             errors => Problem(errors));
     }
     
@@ -39,8 +39,9 @@ public class AuthenticationController : ApiController
         ErrorOr<AuthenticationResult> authResult = await _authenticationService.Login(
             request.email, 
             request.password);
+            
         return authResult.Match(
-            authResult => Ok(MapAuthResult(authResult)),
+            authenticationResult => Ok(MapAuthResult(authenticationResult)),
             errors => Problem(errors));
     }
 

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Learning\\Projects\\IT-story\\src\\Api\\Api.csproj": {}
+    "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj": {}
   },
   "projects": {
-    "D:\\Learning\\Projects\\IT-story\\src\\Api\\Api.csproj": {
+    "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Api\\Api.csproj",
+        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj",
         "projectName": "Api",
-        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Api\\Api.csproj",
+        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj",
         "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-        "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Api\\obj\\",
+        "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\api\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,14 +26,14 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj": {
-                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj"
+              "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj": {
+                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj"
               },
               "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\Contracts.csproj": {
                 "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\Contracts.csproj"
               },
-              "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj": {
-                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj"
+              "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }
@@ -75,12 +75,12 @@
         }
       }
     },
-    "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj": {
+    "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj",
-        "projectName": "application",
-        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj",
+        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj",
+        "projectName": "Application",
+        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
         "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\obj\\",
         "projectStyle": "PackageReference",
@@ -97,8 +97,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj": {
-                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj"
+              "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj": {
+                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj"
               }
             }
           }
@@ -189,12 +189,12 @@
         }
       }
     },
-    "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj": {
+    "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj",
-        "projectName": "domain",
-        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj",
+        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
         "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
@@ -247,12 +247,12 @@
         }
       }
     },
-    "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj": {
+    "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj",
-        "projectName": "infrastructure",
-        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj",
+        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj",
+        "projectName": "Infrastructure",
+        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
         "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
@@ -269,8 +269,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj": {
-                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj"
+              "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj": {
+                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj"
               }
             }
           }
