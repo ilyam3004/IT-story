@@ -36,7 +36,7 @@ public class AuthenticationService : IAuthenticationService
         {
             username = username, 
             email = email, 
-            password = password, 
+            password = BCrypt.Net.BCrypt.HashPassword(password), 
             firstName = firstName, 
             lastName = lastName, 
             status = status
@@ -61,7 +61,7 @@ public class AuthenticationService : IAuthenticationService
         if (user is null)
             return Errors.Authentication.UserNotFound;
         
-        if (user.password != password)
+        if (!BCrypt.Net.BCrypt.Verify(password, user.password))
             return Errors.Authentication.UserNotFound;
 
         return new AuthenticationResult

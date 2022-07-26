@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "WXZjfdMDLAwpTprHLaB6o3No6vRxGFD9qj7z/dgqj5nl9BbCFjAx1MyrAd6Po5WNusrDtaNHKBsqNJgz63IpQg==",
+  "dgSpecHash": "b+WYk6LexokDVLe8zOcUDg0DTnyB4OijfdD0syAQxMMDBcEaiiMvLpxrs+sqMIsauA97qJdUN6l3D2y/1tJMVQ==",
   "success": true,
   "projectFilePath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ilyam\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\erroror\\0.1.0\\erroror.0.1.0.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\6.0.7\\microsoft.aspnetcore.cryptography.internal.6.0.7.nupkg.sha512",
