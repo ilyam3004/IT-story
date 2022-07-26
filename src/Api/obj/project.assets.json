@@ -2212,11 +2212,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Api\\Api.csproj",
+      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Api\\Api.csproj",
+      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj",
       "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-      "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Api\\obj\\",
+      "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"
