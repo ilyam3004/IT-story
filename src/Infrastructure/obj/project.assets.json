@@ -2,6 +2,15 @@
   "version": 3,
   "targets": {
     "net6.0": {
+      "ErrorOr/0.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/ErrorOr.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/ErrorOr.dll": {}
+        }
+      },
       "Humanizer.Core/2.8.26": {
         "type": "package",
         "compile": {
@@ -767,6 +776,9 @@
       "domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "ErrorOr": "0.1.0"
+        },
         "compile": {
           "bin/placeholder/domain.dll": {}
         },
@@ -777,6 +789,20 @@
     }
   },
   "libraries": {
+    "ErrorOr/0.1.0": {
+      "sha512": "adIVrA1Ixck5oZ79ZKB5f7k+aVlg4AB47nNHY14+qI8d+4//sTe0Dvbp8AIJEz/94OimmWjdGfei67q9UZPGig==",
+      "type": "package",
+      "path": "erroror/0.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "erroror.0.1.0.nupkg.sha512",
+        "erroror.nuspec",
+        "icon-square.png",
+        "lib/net6.0/ErrorOr.dll",
+        "lib/net6.0/ErrorOr.xml"
+      ]
+    },
     "Humanizer.Core/2.8.26": {
       "sha512": "OiKusGL20vby4uDEswj2IgkdchC1yQ6rwbIkZDVBPIR6al2b7n3pC91elBul9q33KaBgRKhbZH3+2Ur4fnWx2A==",
       "type": "package",

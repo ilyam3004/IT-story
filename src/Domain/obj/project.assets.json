@@ -1,11 +1,38 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "ErrorOr/0.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/ErrorOr.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/ErrorOr.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "ErrorOr/0.1.0": {
+      "sha512": "adIVrA1Ixck5oZ79ZKB5f7k+aVlg4AB47nNHY14+qI8d+4//sTe0Dvbp8AIJEz/94OimmWjdGfei67q9UZPGig==",
+      "type": "package",
+      "path": "erroror/0.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "erroror.0.1.0.nupkg.sha512",
+        "erroror.nuspec",
+        "icon-square.png",
+        "lib/net6.0/ErrorOr.dll",
+        "lib/net6.0/ErrorOr.xml"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "ErrorOr >= 0.1.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\ilyam\\.nuget\\packages\\": {}
@@ -43,6 +70,12 @@
     "frameworks": {
       "net6.0": {
         "targetAlias": "net6.0",
+        "dependencies": {
+          "ErrorOr": {
+            "target": "Package",
+            "version": "[0.1.0, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

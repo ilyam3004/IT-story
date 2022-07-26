@@ -1,6 +1,8 @@
+using ErrorOr;
+using Domain.Entities;
 using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
-using Domain.Entities;
+using Domain.Common.Errors;
 
 namespace Application.Services;
 
@@ -15,8 +17,10 @@ public class AuthenticationService : IAuthenticationService
         _userRepository = userRepository;
     }
 
-    public async Task<AuthenticationResult> Register(string username, string email, string password, string confirmPassword, string firstName, string lastName, string status)
-    {   
+    public async Task<ErrorOr<AuthenticationResult>> Register(string username, string email, string password, string confirmPassword, string firstName, string lastName, string status)
+    {
+        if (_userRepository.GetByEmail(email) is not null)
+            return Errors.User.DuplicateEmail;
         
         var user = new User
         {
@@ -31,21 +35,27 @@ public class AuthenticationService : IAuthenticationService
         await _userRepository.Add(user);
 
         return new AuthenticationResult
-        {
+        { 
             user = user,
             token = _jwtTokenGenerator.GenerateToken(user)
         };
     }
 
-    public async Task<AuthenticationResult> Login(string email, string password)
+    public async Task<ErrorOr<AuthenticationResult>> Login(string email, string password)
     {
 
         var user = await _userRepository.GetByEmail(email);
-        
+
+        if (user is null)
+            return Errors.Authentication.InvallidCredentials;
+
+        if (user.password != password)
+            return Errors.Authentication.InvallidCredentials;
+
         return new AuthenticationResult
         {
             user = user,
-            token = "toked"
+            token = _jwtTokenGenerator.GenerateToken(user)
         };
     }
 }

@@ -1,7 +1,5 @@
-@host=https://localhost:7210
-
-POST {{host}}/auth/register
-Content-Type: application/json
+POST https://localhost:7210/auth/register
+Accept: application/json
 
 {
     "username": "John",

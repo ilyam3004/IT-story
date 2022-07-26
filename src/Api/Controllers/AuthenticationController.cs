@@ -1,14 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Contracts.Authentication;
 using Application.Services;
-using Domain.Entities;
-using Application.Common.Interfaces.Persistence;
+using ErrorOr;
 
 namespace Api.Controllers;
 
-[ApiController]
 [Route("auth")]
-public class AuthenticationController : ControllerBase
+public class AuthenticationController : ApiController
 {
     private readonly IAuthenticationService _authenticationService;
 
@@ -20,7 +18,7 @@ public class AuthenticationController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var authResult = await _authenticationService.Register(
+        ErrorOr<AuthenticationResult> authResult = await _authenticationService.Register(
             request.username, 
             request.email, 
             request.password, 
@@ -28,27 +26,33 @@ public class AuthenticationController : ControllerBase
             request.firstName, 
             request.lastName, 
             request.status);
-            
-        return Ok();
+        
+        return authResult.Match(
+            authResult => Ok(MapAuthResult(authResult)),
+            errors => Problem(errors));
     }
     
 
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
-        var authResult = await _authenticationService.Login(
+        ErrorOr<AuthenticationResult> authResult = await _authenticationService.Login(
             request.email, 
             request.password);
+        return authResult.Match(
+            authResult => Ok(MapAuthResult(authResult)),
+            errors => Problem(errors));
+    }
 
-        return Ok(new AuthenticationResponse
+    private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
+        => new AuthenticationResponse
         {
             id = authResult.user.id,
             token = authResult.token,
-            username = authResult.user.username,
             email = authResult.user.email,
+            username = authResult.user.username,
             firstName = authResult.user.firstName,
             lastName = authResult.user.lastName,
             status = authResult.user.status
-        });
-    }
+        };
 }

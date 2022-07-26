@@ -1,6 +1,4 @@
-@host=https://localhost:7210
-
-POST {{host}}/auth/login
+POST https://localhost:7210/auth/login
 Content-Type: application/json
 
 {

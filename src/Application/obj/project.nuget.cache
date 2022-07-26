@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "kZqP2L+Vio+60v2yFBplDFc5N6mxClR2H8g3mnko28H2tgJ7xoWORkCixk9xtt8yjgbWF3862FeStTuKjdB8hg==",
+  "dgSpecHash": "+A+mubAU0S1lL6QV6uljtcZTTuC8hjrhDk4JIFUE44CtdtdkOdL1hGzdximwb5wfxB2JymqHQCAu9NnUj6LaHg==",
   "success": true,
   "projectFilePath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\ilyam\\.nuget\\packages\\erroror\\0.1.0\\erroror.0.1.0.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
   ],
   "logs": []
