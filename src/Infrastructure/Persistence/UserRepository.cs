@@ -15,11 +15,8 @@ public class UserRepository : IUserRepository
     }
 
     public async Task<User?> GetByEmail(string email)
-    {
-        var finduser = await _db.Users.FirstOrDefaultAsync(user => user.email == email);
-        return finduser;
-    }
-
+        => await _db.Users.FirstOrDefaultAsync(user => user.email == email);
+    
     public async Task Add(User user)
     {
         await _db.Users.AddAsync(user);

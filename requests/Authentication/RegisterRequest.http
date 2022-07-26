@@ -1,9 +1,9 @@
 POST https://localhost:7210/auth/register
-Accept: application/json
+Content-Type: application/json
 
 {
     "username": "John",
-    "email": "test@email.com",
+    "email": "ilyamelnichuk3004@gmail.com",
     "password": "testPassword",
     "confirmPassword": "testPassword",
     "firstName": "Alex",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2zlOCCVE+IqnSA8Cf3DeYyIao1VCn/6ai4/SKBHKggwDpj48x/VLGqQIQFSfZ5Hp9lWIxMRtMNSC2amZPP1Gyg==",
+  "dgSpecHash": "EUI7Kr4r8weVJ+ljlJXRSFf4SEXizsua6/+zLNWvPqLmzKEaTSSP+j+7JjRQzlAMZQG4vkC33fqSXmfYPRejsg==",
   "success": true,
-  "projectFilePath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj",
+  "projectFilePath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ilyam\\.nuget\\packages\\erroror\\0.1.0\\erroror.0.1.0.nupkg.sha512"
   ],

@@ -759,31 +759,31 @@
           }
         }
       },
-      "application/1.0.0": {
+      "Application/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
-          "domain": "1.0.0"
+          "Domain": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
         },
         "compile": {
-          "bin/placeholder/application.dll": {}
+          "bin/placeholder/Application.dll": {}
         },
         "runtime": {
-          "bin/placeholder/application.dll": {}
+          "bin/placeholder/Application.dll": {}
         }
       },
-      "domain/1.0.0": {
+      "Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "ErrorOr": "0.1.0"
         },
         "compile": {
-          "bin/placeholder/domain.dll": {}
+          "bin/placeholder/Domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/domain.dll": {}
+          "bin/placeholder/Domain.dll": {}
         }
       }
     }
@@ -2205,26 +2205,26 @@
         "version.txt"
       ]
     },
-    "application/1.0.0": {
+    "Application/1.0.0": {
       "type": "project",
-      "path": "../Application/application.csproj",
-      "msbuildProject": "../Application/application.csproj"
+      "path": "../Application/Application.csproj",
+      "msbuildProject": "../Application/Application.csproj"
     },
-    "domain/1.0.0": {
+    "Domain/1.0.0": {
       "type": "project",
-      "path": "../Domain/domain.csproj",
-      "msbuildProject": "../Domain/domain.csproj"
+      "path": "../Domain/Domain.csproj",
+      "msbuildProject": "../Domain/Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Application >= 1.0.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 6.0.7",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.7",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.7",
       "Microsoft.Extensions.Configuration >= 6.0.1",
       "Microsoft.Extensions.Options.Configurationextensions >= 6.0.0",
-      "System.IdentityModel.Tokens.Jwt >= 6.21.0",
-      "application >= 1.0.0"
+      "System.IdentityModel.Tokens.Jwt >= 6.21.0"
     ]
   },
   "packageFolders": {
@@ -2233,9 +2233,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj",
-      "projectName": "infrastructure",
-      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj",
+      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj",
+      "projectName": "Infrastructure",
+      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj",
       "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
       "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
@@ -2252,8 +2252,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj"
+            "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj"
             }
           }
         }

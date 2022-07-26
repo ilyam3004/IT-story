@@ -23,17 +23,17 @@
           "buildTransitive/netcoreapp3.1/_._": {}
         }
       },
-      "domain/1.0.0": {
+      "Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "ErrorOr": "0.1.0"
         },
         "compile": {
-          "bin/placeholder/domain.dll": {}
+          "bin/placeholder/Domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/domain.dll": {}
+          "bin/placeholder/Domain.dll": {}
         }
       }
     }
@@ -78,16 +78,16 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "domain/1.0.0": {
+    "Domain/1.0.0": {
       "type": "project",
-      "path": "../Domain/domain.csproj",
-      "msbuildProject": "../Domain/domain.csproj"
+      "path": "../Domain/Domain.csproj",
+      "msbuildProject": "../Domain/Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Microsoft.Extensions.DependencyInjection.Abstractions >= 6.0.0",
-      "domain >= 1.0.0"
+      "Domain >= 1.0.0",
+      "Microsoft.Extensions.DependencyInjection.Abstractions >= 6.0.0"
     ]
   },
   "packageFolders": {
@@ -96,9 +96,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj",
-      "projectName": "application",
-      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj",
+      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj",
+      "projectName": "Application",
+      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
       "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\obj\\",
       "projectStyle": "PackageReference",
@@ -115,8 +115,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj"
+            "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj"
             }
           }
         }

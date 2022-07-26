@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj": {}
+    "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj": {
+    "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj",
-        "projectName": "domain",
-        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj",
+        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj",
+        "projectName": "Domain",
+        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
         "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
