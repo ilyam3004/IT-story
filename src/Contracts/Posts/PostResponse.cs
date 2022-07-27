@@ -1,3 +1,7 @@
 ﻿namespace Contracts.Posts;
 
-public record PostResponse();
+public record PostResponse(
+    int Id,
+    string Email,
+    string Text,
+    string Date);

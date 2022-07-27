@@ -7,29 +7,29 @@ public class User
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int id { get; set; }
+    public int Id { get; set; }
 
     [Required]
     [MaxLength(10)]
-    public string username { get; set; } = null!;
+    public string Username { get; set; } = null!;
 
     [Required]
     [MaxLength(319)]
-    public string email { get; set; } = null!;
+    public string Email { get; set; } = null!;
 
     [Required]
     [MaxLength(60)]
-    public string password { get; set; } = null!;
+    public string Password { get; set; } = null!;
 
     [Required]
     [MaxLength(100)]
-    public string firstName { get; set; } = null!;
+    public string FirstName { get; set; } = null!;
 
     [Required]
     [MaxLength(100)]
-    public string lastName { get; set; } = null!;
+    public string LastName { get; set; } = null!;
     
     [Required]
     [MaxLength(10)]
-    public string status { get; set; } = null!;
+    public string Status { get; set; } = null!;
 }

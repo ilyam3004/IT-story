@@ -2274,9 +2274,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj",
-      "projectName": "Infrastructure",
-      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj",
+      "projectName": "infrastructure",
+      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj",
       "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
       "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",

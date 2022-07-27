@@ -3,6 +3,10 @@
   <component name="UserContentModel">
     <attachedFolders />
     <explicitIncludes>
+      <Path>src/Api/bin</Path>
+      <Path>src/Application/bin</Path>
+      <Path>src/Domain/bin</Path>
+      <Path>tests</Path>
       <Path>.git</Path>
       <Path>.idea</Path>
       <Path>.vscode</Path>

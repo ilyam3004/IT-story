@@ -7,15 +7,15 @@ namespace Infrastructure.Presistence;
 
 public class UserRepository : IUserRepository
 {
-    private readonly ApplicationDbContext _db;
+    private readonly UserDbContext _db;
 
-    public UserRepository(ApplicationDbContext context)
+    public UserRepository(UserDbContext context)
     {
         _db = context;
     }
 
     public async Task<User?> GetByEmail(string email)
-        => await _db.Users.FirstOrDefaultAsync(user => user.email == email);
+        => await _db.Users.FirstOrDefaultAsync(user => user.Email == email);
     
     public async Task Add(User user)
     {

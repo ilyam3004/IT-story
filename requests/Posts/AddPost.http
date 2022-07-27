@@ -1,0 +1,8 @@
+﻿POST https://localhost:7210/posts/addpost
+Content-Type: application/json
+
+{
+    "email": "ilyamelnichuk30041@gmail.com",
+    "text": "asdkajhdlkasldasjhd",
+    "date": "27.07.2022"
+}

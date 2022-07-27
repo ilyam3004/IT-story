@@ -1,6 +1,6 @@
 ﻿namespace Contracts.Posts;
 
-public class PostRequest
-{
-    
-}
+public record PostRequest(
+    string Email,
+    string Text,
+    string Date);
