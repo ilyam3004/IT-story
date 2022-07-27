@@ -34,17 +34,17 @@ public class AuthenticationService : IAuthenticationService
 
         var user = new User
         {
-            username = username, 
-            email = email, 
-            password = BCrypt.Net.BCrypt.HashPassword(password), 
-            firstName = firstName, 
-            lastName = lastName, 
-            status = status
+            Username = username, 
+            Email = email, 
+            Password = BCrypt.Net.BCrypt.HashPassword(password), 
+            FirstName = firstName, 
+            LastName = lastName, 
+            Status = status
         };
 
         await _userRepository.Add(user);
 
-        var tokenUser = await _userRepository.GetByEmail(user.email);
+        var tokenUser = await _userRepository.GetByEmail(user.Email);
 
         return new AuthenticationResult
         { 
@@ -61,7 +61,7 @@ public class AuthenticationService : IAuthenticationService
         if (user is null)
             return Errors.Authentication.UserNotFound;
         
-        if (!BCrypt.Net.BCrypt.Verify(password, user.password))
+        if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
             return Errors.Authentication.UserNotFound;
 
         return new AuthenticationResult

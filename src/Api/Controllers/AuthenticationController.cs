@@ -48,12 +48,12 @@ public class AuthenticationController : ApiController
     private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
         => new AuthenticationResponse
         {
-            id = authResult.user.id,
+            id = authResult.user.Id,
             token = authResult.token,
-            email = authResult.user.email,
-            username = authResult.user.username,
-            firstName = authResult.user.firstName,
-            lastName = authResult.user.lastName,
-            status = authResult.user.status
+            email = authResult.user.Email,
+            username = authResult.user.Username,
+            firstName = authResult.user.FirstName,
+            lastName = authResult.user.LastName,
+            status = authResult.user.Status
         };
 }

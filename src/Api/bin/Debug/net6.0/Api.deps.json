@@ -547,7 +547,7 @@
           "ErrorOr": "0.1.0"
         },
         "runtime": {
-          "Domain.dll": {}
+          "domain.dll": {}
         }
       },
       "Infrastructure/1.0.0": {
