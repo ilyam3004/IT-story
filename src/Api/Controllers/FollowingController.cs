@@ -4,7 +4,6 @@ using Microsoft.Net.Http.Headers;
 
 namespace Api.Controllers;
 
-[Route("")]
 public class FollowersController : ApiController
 {
     private readonly IFollowingService _followerService;
@@ -15,7 +14,7 @@ public class FollowersController : ApiController
     }
     
     [HttpGet("followers")]
-    public async Task<IActionResult> GetFollowers(int followingId)
+    public async Task<IActionResult> GetFollowers()
     {
         var token = Request.Headers[HeaderNames.Authorization];
         var followersResult = await _followerService.GetFollowers(token);

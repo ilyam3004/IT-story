@@ -21,6 +21,68 @@ public class FollowingService : IFollowingService
         _userRepository = userRepository;
     }
 
+    public async Task<ErrorOr<List<Follower>>> GetFollowers(string token)
+    {
+        if (token == String.Empty)
+            return Errors.Authentication.TokenNotFound;
+
+        if (!_jwtTokenGenerator.CanReadToken(token))
+            return Errors.Authentication.WrongToken;
+
+        var userId = _jwtTokenGenerator.ReadToken(token);
+        List<Following> followings = await _followingRepository.GetFollowers(userId);
+        
+        if (followings.Count == 0)
+            return Errors.Following.FollowersNotFound;
+        
+        List<Follower> followers = new();
+        foreach (var item in followings)
+        {
+            var follower = await _userRepository.GetUserById(item.FollowerId);
+            if (follower is null)
+                return Errors.Following.FollowersNotFound;
+            followers.Add(new Follower(
+                follower.Id,
+                follower.Email,
+                follower.Username,
+                follower.FirstName,
+                follower.LastName,
+                follower.Status));
+        }
+        return followers;
+    }
+    
+    public async Task<ErrorOr<List<Follower>>> GetFollowings(string token)
+    {
+        if (token == String.Empty)
+            return Errors.Authentication.TokenNotFound;
+
+        if (!_jwtTokenGenerator.CanReadToken(token))
+            return Errors.Authentication.WrongToken;
+
+        var userId = _jwtTokenGenerator.ReadToken(token);
+        List<Following> followings = await _followingRepository.GetFollowings(userId);
+        
+        if (followings.Count == 0)
+            return Errors.Following.FollowingsNotFound;
+        
+        List<Follower> userFollowings = new();
+        foreach (var item in followings)
+        {
+            var follower = await _userRepository.GetUserById(item.FollowingId);
+            if (follower is null)
+                return Errors.Following.FollowersNotFound;
+            userFollowings.Add(new Follower(
+                follower.Id,
+                follower.Email,
+                follower.Username,
+                follower.FirstName,
+                follower.LastName,
+                follower.Status));
+        }
+        return userFollowings;
+    }
+    
     public async Task<ErrorOr<FollowingResult>> Follow(string token, int followingId)
     {
         if (token == String.Empty)

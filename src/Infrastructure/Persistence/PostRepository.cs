@@ -14,7 +14,9 @@ public class PostRepository : IPostRepository
     }
 
     public async Task<List<Post>> GetPostsByUserId(int userId)
-        => await _db.Posts.Where(post => post.UserId == userId).ToListAsync();
+        => await _db.Posts
+            .Where(post => post.UserId == userId)
+            .ToListAsync();
 
     public async Task<Post?> GetPostById(int postId)
         => await _db.Posts.FirstOrDefaultAsync(post => post.Id == postId);

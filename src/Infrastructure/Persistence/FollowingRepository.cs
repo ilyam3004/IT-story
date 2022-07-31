@@ -12,9 +12,17 @@ public class FollowingRepository : IFollowingRepository
     {
         _db = db;
     }
-    
-    //TODO make get followings and followers
 
+    public async Task<List<Following>> GetFollowers(int userId)
+        => await _db.Followings
+            .Where(following => following.FollowingId == userId)
+            .ToListAsync();
+    
+    public async Task<List<Following>> GetFollowings(int userId)
+        => await _db.Followings
+            .Where(following => following.FollowerId == userId)
+            .ToListAsync();
+    
     public async Task AddFollowing(Following following)
     {
         await _db.Followings.AddAsync(following);
