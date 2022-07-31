@@ -25,5 +25,13 @@ public static partial class Errors
         public static Error UserNotFound => Error.NotFound(
             "Auth.UserNotFound",
             "Account not found");
+        
+        public static Error WrongToken => Error.Conflict(
+            "Post.WrongToken",
+            "Wrong token");
+        
+        public static Error TokenNotFound => Error.NotFound(
+            "Post.TokenNotFound",
+            "Token not found");
     }
 }

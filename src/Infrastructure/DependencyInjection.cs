@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Authentication;
 using Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
-using infrastructure.Persistence;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,9 +23,12 @@ public static class DependencyInjection
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();
         services.AddScoped<IPostService, PostService>();
+        services.AddScoped<IFollowingService, FollowingService>();
+
         
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPostRepository, PostRepository>();
+        services.AddScoped<IFollowingRepository, FollowingRepository>();
 
         services.AddDbContext<AppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 

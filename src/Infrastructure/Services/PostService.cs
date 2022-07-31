@@ -26,10 +26,10 @@ public class PostService : IPostService
     public async Task<ErrorOr<List<PostResult>>> GetPosts(string token)
     {
         if (token == String.Empty)
-            return Errors.Posts.TokenNotFound;
+            return Errors.Authentication.TokenNotFound;
 
         if (!_jwtTokenGenerator.CanReadToken(token))
-            return Errors.Posts.WrongToken;
+            return Errors.Authentication.WrongToken;
 
         int id = _jwtTokenGenerator.ReadToken(token);
 
@@ -51,10 +51,10 @@ public class PostService : IPostService
     public async Task<ErrorOr<PostResult>> AddPost(string text, string token)
     {
         if (token == String.Empty)
-            return Errors.Posts.TokenNotFound;
+            return Errors.Authentication.TokenNotFound;
 
         if (!_jwtTokenGenerator.CanReadToken(token))
-            return Errors.Posts.WrongToken;
+            return Errors.Authentication.WrongToken;
 
         int userId = _jwtTokenGenerator.ReadToken(token);
 
@@ -83,7 +83,7 @@ public class PostService : IPostService
         if (postToRemove is null)
             return Errors.Posts.PostNotFound;
 
-        await _postRepository.RemovePost(postId);
+        await _postRepository.RemovePost(postToRemove);
 
         return new PostResult(
             postToRemove.Id,
@@ -99,7 +99,7 @@ public class PostService : IPostService
         if (postToEdit is null)
             return Errors.Posts.PostNotFound;
 
-        var editedPost = await _postRepository.EditPost(postId, newText);
+        var editedPost = await _postRepository.EditPost(postToEdit, newText);
 
         return new PostResult(
             editedPost.Id,

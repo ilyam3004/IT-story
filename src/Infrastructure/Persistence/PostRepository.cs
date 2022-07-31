@@ -2,7 +2,7 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace infrastructure.Persistence;
+namespace Infrastructure.Persistence;
 
 public class PostRepository : IPostRepository
 {
@@ -25,16 +25,14 @@ public class PostRepository : IPostRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task RemovePost(int postId)
+    public async Task RemovePost(Post post)
     {
-        var post = await _db.Posts.FirstOrDefaultAsync(post => post.Id == postId);
         _db.Posts.Remove(post!);
         await _db.SaveChangesAsync();
     }
 
-    public async Task<Post> EditPost(int postId, string newText)
+    public async Task<Post> EditPost(Post post, string newText)
     {
-        var post = await _db.Posts.FirstOrDefaultAsync(post => post.Id == postId);
         post!.Text = newText;
         await _db.SaveChangesAsync();
         return post;
