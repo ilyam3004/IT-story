@@ -1,9 +1,9 @@
 using System.Security.Claims;
-using Application.Common.Interfaces.Authentication;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
-using Application.Common.Interfaces.Services;
 using System.Text;
+using Application.Common.Interfaces.Authentication;
+using Application.Common.Interfaces.Services;
 using Microsoft.Extensions.Options;
 using Domain.Entities;
 
@@ -46,4 +46,14 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
+
+    public int ReadToken(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+        var jwtSecurityToken = handler.ReadJwtToken(token);
+        return Int32.Parse(jwtSecurityToken.Subject);
+    }
+
+    public bool CanReadToken(string token)
+        => new JwtSecurityTokenHandler().CanReadToken(token);
 }

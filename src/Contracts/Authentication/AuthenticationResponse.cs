@@ -2,11 +2,11 @@ namespace Contracts.Authentication;
 
 public class AuthenticationResponse
 {
-    public int id { get; set; }
-    public string token { get; set; } = null!;
-    public string username { get; set; } = null!;
-    public string email { get; set; } = null!;
-    public string firstName { get; set; } = null!;
-    public string lastName { get; set; } = null!;
-    public string status { get; set; } = null!;
+    public int Id { get; set; }
+    public string Token { get; set; } = null!;
+    public string Username { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string FirstName { get; set; } = null!;
+    public string LastName { get; set; } = null!;
+    public string Status { get; set; } = null!;
 }

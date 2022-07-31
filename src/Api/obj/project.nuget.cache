@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2bWlCNBRYOqxbQohEWTpVND/s5JYdigAJcadKgstu0mhC3uRyHmsnod/hpku4rC5++8NBrIkV/fGte74OYfYjw==",
+  "dgSpecHash": "IVZXPyTwbWlHQe5DRolWKgH91GuMdtxC0DCsz2uvvss9KKN5OfhtwbQnZ5B59qX7wyB6tvkv1kbZxxcrc/swpw==",
   "success": true,
-  "projectFilePath": "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj",
+  "projectFilePath": "D:\\Learning\\Projects\\it-story\\src\\Api\\Api.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ilyam\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\ilyam\\.nuget\\packages\\erroror\\0.1.0\\erroror.0.1.0.nupkg.sha512",

@@ -9,9 +9,8 @@ public class Post
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
 
-    [Required]
-    [MaxLength(319)]
-    public string Email { get; set; } = null!;
+    [Required] 
+    public int UserId { get; set; }
 
     [Required]
     [MaxLength(500)]

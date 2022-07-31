@@ -740,19 +740,19 @@
           }
         }
       },
-      "Application/1.0.0": {
+      "application/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
-          "Domain": "1.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
+          "domain": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/Application.dll": {}
+          "bin/placeholder/application.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Application.dll": {}
+          "bin/placeholder/application.dll": {}
         }
       },
       "Contracts/1.0.0": {
@@ -765,35 +765,35 @@
           "bin/placeholder/Contracts.dll": {}
         }
       },
-      "Domain/1.0.0": {
+      "domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "ErrorOr": "0.1.0"
         },
         "compile": {
-          "bin/placeholder/Domain.dll": {}
+          "bin/placeholder/domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Domain.dll": {}
+          "bin/placeholder/domain.dll": {}
         }
       },
-      "Infrastructure/1.0.0": {
+      "infrastructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "Application": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.7",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.7",
           "Microsoft.Extensions.Configuration": "6.0.1",
           "Microsoft.Extensions.Options.Configurationextensions": "6.0.0",
-          "System.IdentityModel.Tokens.Jwt": "6.21.0"
+          "System.IdentityModel.Tokens.Jwt": "6.21.0",
+          "application": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/Infrastructure.dll": {}
+          "bin/placeholder/infrastructure.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Infrastructure.dll": {}
+          "bin/placeholder/infrastructure.dll": {}
         }
       }
     }
@@ -2218,33 +2218,33 @@
         "version.txt"
       ]
     },
-    "Application/1.0.0": {
+    "application/1.0.0": {
       "type": "project",
-      "path": "../Application/Application.csproj",
-      "msbuildProject": "../Application/Application.csproj"
+      "path": "../Application/application.csproj",
+      "msbuildProject": "../Application/application.csproj"
     },
     "Contracts/1.0.0": {
       "type": "project",
       "path": "../Contracts/Contracts.csproj",
       "msbuildProject": "../Contracts/Contracts.csproj"
     },
-    "Domain/1.0.0": {
+    "domain/1.0.0": {
       "type": "project",
-      "path": "../Domain/Domain.csproj",
-      "msbuildProject": "../Domain/Domain.csproj"
+      "path": "../Domain/domain.csproj",
+      "msbuildProject": "../Domain/domain.csproj"
     },
-    "Infrastructure/1.0.0": {
+    "infrastructure/1.0.0": {
       "type": "project",
-      "path": "../Infrastructure/Infrastructure.csproj",
-      "msbuildProject": "../Infrastructure/Infrastructure.csproj"
+      "path": "../Infrastructure/infrastructure.csproj",
+      "msbuildProject": "../Infrastructure/infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Application >= 1.0.0",
       "Contracts >= 1.0.0",
-      "Infrastructure >= 1.0.0",
-      "Newtonsoft.Json >= 13.0.1"
+      "Newtonsoft.Json >= 13.0.1",
+      "application >= 1.0.0",
+      "infrastructure >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -2253,11 +2253,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj",
+      "projectUniqueName": "D:\\Learning\\Projects\\it-story\\src\\Api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj",
+      "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Api\\Api.csproj",
       "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-      "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\api\\obj\\",
+      "outputPath": "D:\\Learning\\Projects\\it-story\\src\\Api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2272,14 +2272,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj"
+            "D:\\Learning\\Projects\\it-story\\src\\Application\\Application.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Application\\Application.csproj"
             },
-            "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\Contracts.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\Contracts.csproj"
+            "D:\\Learning\\Projects\\it-story\\src\\Contracts\\Contracts.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Contracts\\Contracts.csproj"
             },
-            "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj"
+            "D:\\Learning\\Projects\\it-story\\src\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }

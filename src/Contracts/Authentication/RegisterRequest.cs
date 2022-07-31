@@ -2,11 +2,11 @@ namespace Contracts.Authentication;
 
 public class RegisterRequest
 {
-    public string username { get; set; } = null!;
-    public string email { get; set; } = null!;
-    public string password { get; set; } = null!;
-    public string confirmPassword { get; set; } = null!;
-    public string firstName { get; set; } = null!;
-    public string lastName { get; set; } = null!;
-    public string status { get; set; } = null!;
+    public string Username { get; set; } = null!;
+    public string Email { get; set; } = null!;
+    public string Password { get; set; } = null!;
+    public string ConfirmPassword { get; set; } = null!;
+    public string FirstName { get; set; } = null!;
+    public string LastName { get; set; } = null!;
+    public string Status { get; set; } = null!;
 }

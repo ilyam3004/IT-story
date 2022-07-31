@@ -1,5 +1,6 @@
 ﻿POST https://localhost:7210/posts/addpost
 Content-Type: application/json
+-H --header: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMyIsImdpdmVuX25hbWUiOiJJbHlhIiwiZmFtaWx5X25hbWUiOiJNZWxuaWNodWsiLCJqdGkiOiJkZmI5ZDBkYi01ZWRlLTQ5NGEtOGE2NS04ZTQ1MjljMjQwZjkiLCJleHAiOjE2NjQzOTQ3OTMsImlzcyI6IklULXN0b3J5IiwiYXVkIjoiSVQtc3RvcnkifQ.JPYKZT587n0-qORwWt1XqkR_wKB-hhzHgxfSvIbF_EM
 
 {
     "email": "ilyamelnichuk30041@gmail.com",

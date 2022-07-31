@@ -1,9 +1,9 @@
 using Domain.Entities;
 
-namespace Application.Services;
+namespace Application.Models;
 
 public class AuthenticationResult
 {
-    public string token { get; set; } = null!;
-    public User user { get; set; } = null!;
+    public string Token { get; set; } = null!;
+    public User User { get; set; } = null!;
 }

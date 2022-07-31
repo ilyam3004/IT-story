@@ -2,11 +2,11 @@ POST https://localhost:7210/auth/register
 Content-Type: application/json
 
 {
-    "username": "John",
-    "email": "ilyamelnichuk30041@gmail.com",
-    "password": "testPassword",
-    "confirmPassword": "testPassword",
-    "firstName": "Alex",
-    "lastName": "Smith",
+    "username": "Ilya_3004",
+    "email": "ilya@gmail.com",
+    "password": "ilya_3004",
+    "confirmPassword": "ilya_3004",
+    "firstName": "Ilya",
+    "lastName": "Melnichuk",
     "status": "student"
 }

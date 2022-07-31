@@ -1,11 +1,13 @@
 using System.Net.Mail;
+using Application.Common.Interfaces.Authentication;
 using ErrorOr;
 using Domain.Entities;
-using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
+using Application.Models;
+using Application.Services;
 using Domain.Common.Errors;
 
-namespace Application.Services;
+namespace Infrastructure.Services;
 
 public class AuthenticationService : IAuthenticationService
 {
@@ -48,8 +50,8 @@ public class AuthenticationService : IAuthenticationService
 
         return new AuthenticationResult
         { 
-            user = user,
-            token = _jwtTokenGenerator.GenerateToken(tokenUser)
+            User = user,
+            Token = _jwtTokenGenerator.GenerateToken(tokenUser!)
         };
     }
 
@@ -66,8 +68,8 @@ public class AuthenticationService : IAuthenticationService
 
         return new AuthenticationResult
         {
-            user = user,
-            token = _jwtTokenGenerator.GenerateToken(user)
+            User = user,
+            Token = _jwtTokenGenerator.GenerateToken(user)
         };
     }
 }
