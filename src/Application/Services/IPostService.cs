@@ -9,4 +9,5 @@ public interface IPostService
     Task<ErrorOr<PostResult>> AddPost(string text, string token);
     Task<ErrorOr<PostResult>> RemovePost(int postId);
     Task<ErrorOr<PostResult>> EditPost(int postId, string newText);
+    Task<ErrorOr<List<PostResult>>> GetSavedPosts(string token);
 }

@@ -39,4 +39,20 @@ public class PostRepository : IPostRepository
         await _db.SaveChangesAsync();
         return post;
     }
+
+    public async Task<List<SavedPost>> GetSavedPosts(int id)
+        => await _db.SavedPosts.Where(post => post.Id == id).ToListAsync();
+    
+
+    public async Task SavePost(SavedPost post)
+    {
+        await _db.SavedPosts.AddAsync(post);
+        await _db.SaveChangesAsync();
+    }
+    
+    public async Task UnSavePost(SavedPost post)
+    {
+        _db.SavedPosts.Remove(post!);
+        await _db.SaveChangesAsync();
+    }
 }

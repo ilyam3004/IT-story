@@ -21,6 +21,10 @@ public static partial class Errors
         public static Error DuplicateEmail => Error.Conflict(
             "Auth.DuplicateEmail", 
             "User with this email already exists");
+        
+        public static Error DuplicateUserName => Error.Conflict(
+            "Auth.DuplicateUserName",
+            "User with this username already exists");
 
         public static Error UserNotFound => Error.NotFound(
             "Auth.UserNotFound",

@@ -58,4 +58,25 @@ public class PostController : ApiController
             editingPostResult => Ok(editingPostResult),
             errors => Problem(errors));
     }
+    
+    [HttpGet("savedposts")]
+    public async Task<IActionResult> SavedPosts()
+    {
+        string token = Request.Headers[HeaderNames.Authorization];
+        var savedPosts = await _postService.GetSavedPosts(token);
+
+        return savedPosts.Match(
+            savedPostsResult => Ok(savedPostsResult),
+            errors => Problem(errors));
+    }
+    
+    public async Task<IActionResult> LikePost(int postId)
+    {
+                
+    }
+    
+    public async Task<IActionResult> UnLikePost(int postId)
+    {
+        
+    }
 }

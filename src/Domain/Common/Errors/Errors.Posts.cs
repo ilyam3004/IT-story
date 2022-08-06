@@ -13,5 +13,9 @@ public partial class Errors
         public static Error PostNotFound => Error.NotFound(
             "Post.PostNotFound",
             "Post not found");
+        
+        public static Error SavedPostsNotfound => Error.NotFound(
+            "Post.SavedPostsNotFound",
+            "Saved posts not found");
     }
 }

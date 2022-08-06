@@ -27,6 +27,9 @@ public class AuthenticationService : IAuthenticationService
         
         if (await _userRepository.GetByEmail(email) is not null)
             return Errors.Authentication.DuplicateEmail;
+        
+        if (await _userRepository.GetByUserName(username) is not null)
+            return Errors.Authentication.DuplicateUserName;
 
         if (!MailAddress.TryCreate(email, out var outEmail))
             return Errors.Authentication.InvalidEmail;
@@ -47,7 +50,7 @@ public class AuthenticationService : IAuthenticationService
         await _userRepository.Add(user);
 
         var tokenUser = await _userRepository.GetByEmail(user.Email);
-
+        
         return new AuthenticationResult
         { 
             User = user,

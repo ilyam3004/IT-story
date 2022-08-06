@@ -107,4 +107,33 @@ public class PostService : IPostService
             editedPost.Text,
             editedPost.Date);
     }
+    
+    public async Task<ErrorOr<List<PostResult>>> GetSavedPosts(string token)
+    {
+        if (token == String.Empty)
+            return Errors.Authentication.TokenNotFound;
+
+        if (!_jwtTokenGenerator.CanReadToken(token))
+            return Errors.Authentication.WrongToken;
+
+        var posts = await _postRepository.GetSavedPosts(_jwtTokenGenerator.ReadToken(token));
+
+        if (posts.Count == 0)
+            return Errors.Posts.SavedPostsNotfound;
+
+        List<PostResult> savedPosts = new();
+        foreach (var item in posts)
+        {
+            var post = await _postRepository.GetPostById(item.PostId);
+            if (post is null)
+                return Errors.Posts.PostNotFound;
+            savedPosts.Add(new PostResult(
+                post.Id, 
+                post.UserId, 
+                post.Text, 
+                post.Date));
+        }
+
+        return savedPosts;
+    }
 }
