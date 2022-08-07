@@ -4,4 +4,5 @@ public record PostResult(
     int Id,
     int UserId,
     string Text,
-    string Date);
+    string Date,
+    int Likes);

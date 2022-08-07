@@ -3,21 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities;
 
-public class Post
+public class Like
 {
-    [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
-
+    
     [Required] 
     public int UserId { get; set; }
 
-    [Required]
-    [MaxLength(500)]
-    public string Text { get; set; } = null!;
-
     [Required] 
-    public string Date { get; set; } = null!;
-
-    public int Likes { get; set; }
+    public int PostId { get; set; }
 }

@@ -17,5 +17,20 @@ public partial class Errors
         public static Error SavedPostsNotfound => Error.NotFound(
             "Post.SavedPostsNotFound",
             "Saved posts not found");
+        public static Error SavedPostNotfound => Error.NotFound(
+            "Post.SavedPostNotFound",
+            "Saved post not found");
+        
+        public static Error PostAlreadySaved => Error.Conflict(
+            "Post.PostAlreadySaved",
+            "Post already saved");
+        
+        public static Error DontLikeAnyPost => Error.NotFound(
+            "Post.YouDidn'tLikeAnyPost",
+            "You didn't like any post");
+        
+        public static Error LikesNotFound => Error.NotFound(
+            "Post.LikesNotFound",
+            "Likes not found");
     }
 }

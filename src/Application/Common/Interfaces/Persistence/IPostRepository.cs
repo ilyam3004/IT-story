@@ -12,4 +12,10 @@ public interface IPostRepository
     Task<List<SavedPost>> GetSavedPosts(int id);
     Task SavePost(SavedPost post);
     Task UnSavePost(SavedPost post);
+    Task<SavedPost?> GetSavedPostById(int id);
+    Task<Post> LikePost(Post post);
+    Task<Post> UnLikePost(Post post);
+    Task<List<Like>> LikedPosts(int userId);
+    Task<Like> GetLikeByPostId(int userId, int postId);
+    Task<List<Like>> GetPostLikes(int postId);
 }

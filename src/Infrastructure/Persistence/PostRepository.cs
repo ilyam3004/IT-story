@@ -41,8 +41,10 @@ public class PostRepository : IPostRepository
     }
 
     public async Task<List<SavedPost>> GetSavedPosts(int id)
-        => await _db.SavedPosts.Where(post => post.Id == id).ToListAsync();
-    
+        => await _db.SavedPosts.Where(post => post.UserId == id).ToListAsync();
+
+    public async Task<SavedPost?> GetSavedPostById(int id)
+        => await _db.SavedPosts.FirstOrDefaultAsync(post => post.PostId == id);
 
     public async Task SavePost(SavedPost post)
     {
@@ -55,4 +57,34 @@ public class PostRepository : IPostRepository
         _db.SavedPosts.Remove(post!);
         await _db.SaveChangesAsync();
     }
+
+    public async Task<Post> LikePost(Post post)
+    {
+        post.Likes++;
+        await _db.Likes.AddAsync(new Like
+        {
+            UserId = post.UserId,
+            PostId = post.Id
+        });
+        await _db.SaveChangesAsync();
+        return post;
+    }
+
+    public async Task<Post> UnLikePost(Post post)
+    {
+        post.Likes--;
+        var likeToRemove = await GetLikeByPostId(post.UserId, post.Id);
+        _db.Likes.Remove(likeToRemove);
+        await _db.SaveChangesAsync();
+        return post;
+    }
+
+    public async Task<List<Like>> LikedPosts(int userId)
+        => await _db.Likes.Where(like => like.UserId == userId).ToListAsync();
+
+    public async Task<Like> GetLikeByPostId(int userId, int postId)
+        => (await _db.Likes.FirstOrDefaultAsync(like => like.PostId == postId && like.UserId == userId))!;
+
+    public async Task<List<Like>> GetPostLikes(int postId)
+        => await _db.Likes.Where(like => like.PostId == postId).ToListAsync();
 }

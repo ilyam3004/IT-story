@@ -6,7 +6,7 @@ Content-Type: application/json
     "email": "ilya@gmail.com",
     "password": "ilya_3004",
     "confirmPassword": "ilya_3004",
-    "firstName": "Ilya",
-    "lastName": "Melnichuk",
+    "firstname": "Ilya",
+    "lastname": "Melnichuk",
     "status": "student"
 }
