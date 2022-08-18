@@ -41,7 +41,9 @@ public class PostRepository : IPostRepository
     }
 
     public async Task<List<SavedPost>> GetSavedPosts(int id)
-        => await _db.SavedPosts.Where(post => post.UserId == id).ToListAsync();
+        => await _db.SavedPosts
+            .Where(post => post.UserId == id)
+            .ToListAsync();
 
     public async Task<SavedPost?> GetSavedPostById(int id)
         => await _db.SavedPosts.FirstOrDefaultAsync(post => post.PostId == id);
@@ -80,11 +82,25 @@ public class PostRepository : IPostRepository
     }
 
     public async Task<List<Like>> LikedPosts(int userId)
-        => await _db.Likes.Where(like => like.UserId == userId).ToListAsync();
+        => await _db.Likes
+            .Where(like => like.UserId == userId)
+            .ToListAsync();
 
     public async Task<Like> GetLikeByPostId(int userId, int postId)
-        => (await _db.Likes.FirstOrDefaultAsync(like => like.PostId == postId && like.UserId == userId))!;
+        => (await _db.Likes
+            .FirstOrDefaultAsync(like => like.PostId == postId && like.UserId == userId))!;
 
     public async Task<List<Like>> GetPostLikes(int postId)
         => await _db.Likes.Where(like => like.PostId == postId).ToListAsync();
+
+    public async Task CreateComment(Comment comment)
+    {
+        await _db.Comments.AddAsync(comment);
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task<List<Comment>> GetComments(int postId)
+        => await _db.Comments
+            .Where(comment => comment.PostId == postId)
+            .ToListAsync();
 }

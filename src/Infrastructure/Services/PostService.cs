@@ -37,13 +37,14 @@ public class PostService : IPostService
             return Errors.Posts.PostsNotFound;
 
         List<PostResult> userPosts = new();
-        foreach (var item in posts)
+        foreach (var post in posts)
             userPosts.Add(new PostResult(
-                item.Id,
-                item.UserId,
-                item.Text,
-                item.Date,
-                item.Likes));
+                post.Id,
+                post.UserId,
+                post.Text,
+                post.Date,
+                await _postRepository.GetComments(post.Id),
+                post.Likes));
 
         return userPosts;
     }
@@ -73,6 +74,7 @@ public class PostService : IPostService
             post.UserId,
             post.Text,
             post.Date,
+            await _postRepository.GetComments(post.Id),
             0);
     }
 
@@ -90,6 +92,7 @@ public class PostService : IPostService
             postToRemove.UserId,
             postToRemove.Text,
             postToRemove.Date,
+            await _postRepository.GetComments(postId),
             postToRemove.Likes);
     }
     
@@ -107,6 +110,7 @@ public class PostService : IPostService
             editedPost.UserId,
             editedPost.Text,
             editedPost.Date,
+            await _postRepository.GetComments(postId),
             editedPost.Likes);
     }
 
@@ -134,6 +138,7 @@ public class PostService : IPostService
                 post.UserId,
                 post.Text,
                 post.Date,
+                await _postRepository.GetComments(post.Id),
                 post.Likes));
         }
 
@@ -170,6 +175,7 @@ public class PostService : IPostService
                 postToSave.UserId,
                 postToSave.Text,
                 postToSave.Date,
+                await _postRepository.GetComments(postId),
                 postToSave.Likes);
     }
 
@@ -190,12 +196,12 @@ public class PostService : IPostService
             return Errors.Posts.SavedPostNotfound;
         
         await _postRepository.UnSavePost(postToUnSave);
-
         return new PostResult(
             postToReturn.Id,
             postToReturn.UserId,
             postToReturn.Text,
             postToReturn.Date,
+            await _postRepository.GetComments(postId),
             postToReturn.Likes);
     }
 
@@ -217,6 +223,7 @@ public class PostService : IPostService
             likedPost.UserId,
             likedPost.Text,
             likedPost.Date,
+            await _postRepository.GetComments(post.Id),
             likedPost.Likes);
     }
     public async Task<ErrorOr<PostResult>> UnLikePost(string token, int postId)
@@ -237,6 +244,7 @@ public class PostService : IPostService
             unLikedPost.UserId,
             unLikedPost.Text,
             unLikedPost.Date,
+            await _postRepository.GetComments(post.Id),
             unLikedPost.Likes);
     }
 
@@ -263,6 +271,7 @@ public class PostService : IPostService
                 post.UserId,
                 post.Text,
                 post.Date,
+                await _postRepository.GetComments(post.Id),
                 post.Likes));
         }
 
@@ -291,5 +300,33 @@ public class PostService : IPostService
         }
 
         return users;
+    }
+
+    public async Task<ErrorOr<PostResult>> CommentPost(string token, int postId, string text)
+    {
+        if (token == String.Empty)
+            return Errors.Authentication.TokenNotFound;
+
+        if (!_jwtTokenGenerator.CanReadToken(token))
+            return Errors.Authentication.WrongToken;
+        
+        var post = await _postRepository.GetPostById(postId);
+        if (post is null)
+            return Errors.Posts.PostNotFound;
+
+        await _postRepository.CreateComment(new Comment
+        {
+            PostId = post.Id,
+            Date = DateTime.Now.ToString("dd MMMM yyyy, HH:mm", CultureInfo.CreateSpecificCulture("en-US")),
+            Text = text,
+            UserId = _jwtTokenGenerator.ReadToken(token)
+        });
+        return new PostResult(
+            post.Id,
+            post.UserId,
+            post.Text,
+            post.Date,
+            await _postRepository.GetComments(post.Id),
+            post.Likes);
     }
 }
