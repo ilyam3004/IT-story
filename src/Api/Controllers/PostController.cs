@@ -145,4 +145,18 @@ public class PostController : ApiController
             commentPostResult => Ok(commentPostResult),
             errors => Problem(errors));
     }
+
+    [HttpPost("reply")]
+    public async Task<IActionResult> ReplyComment(ReplyRequest request)
+    {
+        string token = Request.Headers[HeaderNames.Authorization];
+        var replyResult = await _postService.Reply(
+            token, 
+            request.UserId, 
+            request.CommentId, 
+            request.Text);
+        return replyResult.Match(
+            replyCommentResult => Ok(replyCommentResult),
+            errors => Problem(errors));
+    }
 }

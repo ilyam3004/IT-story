@@ -18,4 +18,5 @@ public interface IPostService
     Task<ErrorOr<List<PostResult>>> GetLikedPosts(string token);
     Task<ErrorOr<List<UserLikedPost>>> GetPostLikes(int postId);
     Task<ErrorOr<PostResult>> CommentPost(string token, int postId, string text);
+    Task<ErrorOr<PostResult>> Reply(string token, int userId, int commentId, string text, string date);
 }

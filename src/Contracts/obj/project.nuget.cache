@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "R2TYAjoDGmdzQJaD6y13LvxaMulW6kEhztG2LSIWB+B50RDDM0zy/97lmo/6P17nynTA2h6ffH/coPj2BmL/Qw==",
+  "dgSpecHash": "BkUiiU4qakyN88fnMIZyQhP4emT/QHCy1aEluXly30VeWGRJBhaoPvRYb0LEV0qGvxkZZSvpi0i60yqCrI849Q==",
   "success": true,
-  "projectFilePath": "D:\\Learning\\Projects\\it-story\\src\\Contracts\\Contracts.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\Contracts.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ilyam\\.nuget\\packages\\erroror\\0.1.0\\erroror.0.1.0.nupkg.sha512"
+  ],
   "logs": []
 }

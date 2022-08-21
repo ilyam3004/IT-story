@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<SavedPost> SavedPosts => Set<SavedPost>();
     public DbSet<Like> Likes => Set<Like>();
     public DbSet<Comment> Comments => Set<Comment>();
+    public DbSet<Reply> Replies => Set<Reply>();
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -20,6 +21,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Following>().ToTable("following");
         modelBuilder.Entity<SavedPost>().ToTable("savedPosts");
         modelBuilder.Entity<Like>().ToTable("likes");
-        modelBuilder.Entity<Comment>().ToTable("comments");
+        modelBuilder.Entity<Comment>().ToTable("Comments");
+        modelBuilder.Entity<Reply>().ToTable("replies");
     }
 }

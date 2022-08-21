@@ -103,4 +103,14 @@ public class PostRepository : IPostRepository
         => await _db.Comments
             .Where(comment => comment.PostId == postId)
             .ToListAsync();
+
+    public async Task<Comment?> GetCommentById(int commentId)
+        => await _db.Comments
+            .FirstOrDefaultAsync(comment => comment.Id == commentId );
+
+    public async Task ReplyComment(Reply reply)
+    {
+        await _db.Replies.AddAsync(reply);
+        await _db.SaveChangesAsync();
+    }
 }

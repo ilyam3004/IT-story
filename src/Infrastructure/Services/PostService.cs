@@ -329,4 +329,31 @@ public class PostService : IPostService
             await _postRepository.GetComments(post.Id),
             post.Likes);
     }
+
+    public async Task<ErrorOr<PostResult>> Reply(string token, int userId, int commentId, string text, string date)
+    {
+        if (token == String.Empty)
+            return Errors.Authentication.TokenNotFound;
+
+        if (!_jwtTokenGenerator.CanReadToken(token))
+            return Errors.Authentication.WrongToken;
+
+        if (await _postRepository.GetCommentById(commentId) is null)
+            return Errors.Posts.CommentNotFound;
+        
+        if (await _userRepository.GetUserById(userId) is null)
+            return Errors.Posts.CommentNotFound;
+
+        await _postRepository.ReplyComment(new Reply
+        {
+            UserId = userId,
+            ReplierId = _jwtTokenGenerator.ReadToken(token),
+            CommentId = commentId,
+            Data = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture),
+            Text = text
+        });
+
+        var comment = await _postRepository.GetCommentById(commentId);
+        var post = await _postRepository.GetPostById(comment!.PostId);
+    }
 }

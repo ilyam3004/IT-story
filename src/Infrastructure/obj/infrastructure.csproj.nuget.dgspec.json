@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Learning\\Projects\\it-story\\src\\Infrastructure\\infrastructure.csproj": {}
+    "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj": {}
   },
   "projects": {
-    "D:\\Learning\\Projects\\it-story\\src\\Application\\application.csproj": {
+    "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\Projects\\it-story\\src\\Application\\application.csproj",
+        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj",
         "projectName": "application",
-        "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Application\\application.csproj",
+        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj",
         "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-        "outputPath": "D:\\Learning\\Projects\\it-story\\src\\Application\\obj\\",
+        "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Learning\\Projects\\it-story\\src\\Domain\\Domain.csproj": {
-                "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Domain\\Domain.csproj"
+              "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj": {
+                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj"
               }
             }
           }
@@ -70,14 +70,14 @@
         }
       }
     },
-    "D:\\Learning\\Projects\\it-story\\src\\Domain\\domain.csproj": {
+    "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\Projects\\it-story\\src\\Domain\\domain.csproj",
+        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj",
         "projectName": "domain",
-        "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Domain\\domain.csproj",
+        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj",
         "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-        "outputPath": "D:\\Learning\\Projects\\it-story\\src\\Domain\\obj\\",
+        "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -128,14 +128,14 @@
         }
       }
     },
-    "D:\\Learning\\Projects\\it-story\\src\\Infrastructure\\infrastructure.csproj": {
+    "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Learning\\Projects\\it-story\\src\\Infrastructure\\infrastructure.csproj",
+        "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj",
         "projectName": "infrastructure",
-        "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Infrastructure\\infrastructure.csproj",
+        "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\infrastructure.csproj",
         "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-        "outputPath": "D:\\Learning\\Projects\\it-story\\src\\Infrastructure\\obj\\",
+        "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -150,8 +150,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "D:\\Learning\\Projects\\it-story\\src\\Application\\Application.csproj": {
-                "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Application\\Application.csproj"
+              "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj": {
+                "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj"
               }
             }
           }

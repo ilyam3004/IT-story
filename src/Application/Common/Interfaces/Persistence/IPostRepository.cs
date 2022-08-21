@@ -20,4 +20,6 @@ public interface IPostRepository
     Task<List<Like>> GetPostLikes(int postId);
     Task CreateComment(Comment comment);
     Task<List<Comment>> GetComments(int postId);
+    Task<Comment?> GetCommentById(int commentId);
+    Task ReplyComment(Reply reply);
 }
