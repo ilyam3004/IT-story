@@ -137,11 +137,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj",
+      "projectUniqueName": "D:\\Learning\\Projects\\it-story\\src\\Application\\application.csproj",
       "projectName": "application",
-      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\application.csproj",
+      "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Application\\application.csproj",
       "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-      "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\obj\\",
+      "outputPath": "D:\\Learning\\Projects\\it-story\\src\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -156,8 +156,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\domain.csproj"
+            "D:\\Learning\\Projects\\it-story\\src\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Domain\\Domain.csproj"
             }
           }
         }

@@ -21,10 +21,11 @@ public class PostRepository : IPostRepository
     public async Task<Post?> GetPostById(int postId)
         => await _db.Posts.FirstOrDefaultAsync(post => post.Id == postId);
     
-    public async Task AddPost(Post post)
+    public async Task<Post> AddPost(Post post)
     {
         await _db.Posts.AddAsync(post);
         await _db.SaveChangesAsync();
+        return (await _db.Posts.FirstOrDefaultAsync(p => p.UserId == post.UserId & p.Date == post.Date))!;
     }
 
     public async Task RemovePost(Post post)
@@ -104,6 +105,12 @@ public class PostRepository : IPostRepository
             .Where(comment => comment.PostId == postId)
             .ToListAsync();
 
+    public async Task RemoveComment(Comment comment)
+    {
+        _db.Comments.Remove(comment);
+        await _db.SaveChangesAsync();
+    }
+
     public async Task<Comment?> GetCommentById(int commentId)
         => await _db.Comments
             .FirstOrDefaultAsync(comment => comment.Id == commentId );
@@ -113,4 +120,18 @@ public class PostRepository : IPostRepository
         await _db.Replies.AddAsync(reply);
         await _db.SaveChangesAsync();
     }
+
+    public async Task RemoveReply(Reply reply)
+    {
+        _db.Replies.Remove(reply);
+        await _db.SaveChangesAsync();
+    }
+    public async Task<List<Reply>> GetReplies(int commentId)
+        => await _db.Replies
+            .Where(reply => reply.CommentId == commentId)
+            .ToListAsync();
+    
+    public async Task<Reply?> GetReplyById(int replyId)
+        => await _db.Replies.FirstOrDefaultAsync(r => r.Id == replyId);
+    
 }
