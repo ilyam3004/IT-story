@@ -61,22 +61,22 @@ public class PostRepository : IPostRepository
         await _db.SaveChangesAsync();
     }
 
-    public async Task<Post> LikePost(Post post)
+    public async Task<Post> LikePost(Post post, int userId)
     {
         post.Likes++;
         await _db.Likes.AddAsync(new Like
         {
-            UserId = post.UserId,
+            UserId = userId,
             PostId = post.Id
         });
         await _db.SaveChangesAsync();
         return post;
     }
 
-    public async Task<Post> UnLikePost(Post post)
+    public async Task<Post> UnLikePost(Post post, int userId)
     {
         post.Likes--;
-        var likeToRemove = await GetLikeByPostId(post.UserId, post.Id);
+        var likeToRemove = await GetLikeByPostId(userId, post.Id);
         _db.Likes.Remove(likeToRemove);
         await _db.SaveChangesAsync();
         return post;

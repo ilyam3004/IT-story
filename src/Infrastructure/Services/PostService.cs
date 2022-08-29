@@ -76,7 +76,7 @@ public class PostService : IPostService
         {
             UserId = _jwtTokenGenerator.ReadToken(token),
             Text = text,
-            Date = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture),
+            Date = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
             Likes = 0
         };
         var post = await _postRepository.AddPost(postToAdd);
@@ -125,12 +125,20 @@ public class PostService : IPostService
         return Correct.Post.PostRemoved;
     }
 
-    public async Task<ErrorOr<PostResult>> EditPost(int postId, string newText)
+    public async Task<ErrorOr<PostResult>> EditPost(int postId, string newText, string token)
     {
-        var postToEdit = await _postRepository.GetPostById(postId);
+        if (token == String.Empty)
+            return Errors.Authentication.TokenNotFound;
 
+        if (!_jwtTokenGenerator.CanReadToken(token))
+            return Errors.Authentication.WrongToken;
+        
+        var postToEdit = await _postRepository.GetPostById(postId);
         if (postToEdit is null)
             return Errors.Posts.PostNotFound;
+
+        if (_jwtTokenGenerator.ReadToken(token) != postToEdit.UserId)
+            return Errors.Authentication.WrongToken;
 
         var editedPost = await _postRepository.EditPost(postToEdit, newText);
         var dbComments = await _postRepository.GetComments(editedPost.Id);
@@ -283,7 +291,14 @@ public class PostService : IPostService
         if (post is null)
             return Errors.Posts.PostNotFound;
 
-        var likedPost = await _postRepository.LikePost(post);
+        var postLikes = await _postRepository.GetPostLikes(postId);
+
+        var like = postLikes.FirstOrDefault(l => l.UserId == _jwtTokenGenerator.ReadToken(token));
+        if(like is not null)
+            return Errors.Posts.AlreadyLiked;
+        
+
+        var likedPost = await _postRepository.LikePost(post, _jwtTokenGenerator.ReadToken(token));
         var dbComments = await _postRepository.GetComments(likedPost.Id);
         List<CommentResult> comments = new();
         
@@ -318,8 +333,13 @@ public class PostService : IPostService
         var post = await _postRepository.GetPostById(postId);
         if (post is null)
             return Errors.Posts.PostNotFound;
-
-        var unLikedPost = await _postRepository.UnLikePost(post);
+        
+        var postLikes = await _postRepository.GetPostLikes(postId);
+        var like = postLikes.FirstOrDefault(l => l.UserId == _jwtTokenGenerator.ReadToken(token));
+        if (like is null)
+            return Errors.Posts.PostWasNotLiked;
+        
+        var unLikedPost = await _postRepository.UnLikePost(post, _jwtTokenGenerator.ReadToken(token));
         var dbComments = await _postRepository.GetComments(unLikedPost.Id);
         List<CommentResult> comments = new();
         
@@ -427,7 +447,7 @@ public class PostService : IPostService
         await _postRepository.CreateComment(new Comment
         {
             PostId = post.Id,
-            Date = DateTime.UtcNow.ToString("dd MMMM yyyy, HH:mm", CultureInfo.CreateSpecificCulture("en-US")),
+            Date = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
             Text = text,
             UserId = _jwtTokenGenerator.ReadToken(token)
         });
@@ -476,7 +496,7 @@ public class PostService : IPostService
         return Correct.Post.CommentRemoved;
     }
 
-    public async Task<ErrorOr<PostResult>> Reply(string token, int userId, int commentId, string text, string date)
+    public async Task<ErrorOr<PostResult>> Reply(string token, int userId, int commentId, string text)
     {
         if (token == String.Empty)
             return Errors.Authentication.TokenNotFound;
@@ -495,7 +515,7 @@ public class PostService : IPostService
             UserId = userId,
             ReplierId = _jwtTokenGenerator.ReadToken(token),
             CommentId = commentId,
-            Data = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture),
+            Data = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
             Text = text
         });
         var comment = await _postRepository.GetCommentById(commentId);
@@ -548,8 +568,6 @@ public class PostService : IPostService
 
     private List<Reply> SortReplies(List<Reply> replies)
         => replies
-            .Select(r => {r.Data = DateTime.UtcNow
-                .ToString("dd MMMM yyyy, HH:mm", CultureInfo.CreateSpecificCulture("en-US")); return r;})
             .OrderBy(r => r.Data)
             .ToList();
 

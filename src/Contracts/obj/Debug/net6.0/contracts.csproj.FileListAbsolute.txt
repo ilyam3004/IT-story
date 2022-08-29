@@ -10,3 +10,6 @@ D:\Learning\Projects\IT-story\src\Contracts\obj\Debug\net6.0\contracts.dll
 D:\Learning\Projects\IT-story\src\Contracts\obj\Debug\net6.0\refint\contracts.dll
 D:\Learning\Projects\IT-story\src\Contracts\obj\Debug\net6.0\contracts.pdb
 D:\Learning\Projects\IT-story\src\Contracts\obj\Debug\net6.0\ref\contracts.dll
+D:\Learning\Projects\it-story\src\Contracts\bin\Debug\net6.0\domain.dll
+D:\Learning\Projects\it-story\src\Contracts\bin\Debug\net6.0\domain.pdb
+D:\Learning\Projects\it-story\src\Contracts\obj\Debug\net6.0\Contracts.csproj.CopyComplete

@@ -22,7 +22,7 @@ public class PostController : ApiController
         var token = Request.Headers[HeaderNames.Authorization];
         var posts = await _postService.GetPosts(token);
         return posts.Match(
-            postsResult => Ok(postsResult),
+            result => Ok(result),
             errors => Problem(errors));
     }
 
@@ -35,27 +35,29 @@ public class PostController : ApiController
             request.Text, token);
         
         return postAddResult.Match(
-            postAddingResult => Ok(postAddingResult),
+            result => Ok(result),
             errors => Problem(errors));
     }
 
     [HttpDelete("removepost")]
     public async Task<IActionResult> RemovePost(int postId)
     {
-        var removePostResult = await _postService.RemovePost(postId);
+        string token = Request.Headers[HeaderNames.Authorization];
+        var removePostResult = await _postService.RemovePost(token, postId);
         
         return removePostResult.Match(
-            removingPostResult => Ok(removingPostResult),
+            result => Ok(result),
             errors => Problem(errors));
     }
 
     [HttpPut("editpost")]
     public async Task<IActionResult> EditPost(EditedPost post)
     {
-        var editPostResult = await _postService.EditPost(post.PostId, post.NewText);
+        var token = Request.Headers[HeaderNames.Authorization];
+        var editPostResult = await _postService.EditPost(post.PostId, post.NewText, token);
         
         return editPostResult.Match(
-            editingPostResult => Ok(editingPostResult),
+            result => Ok(result),
             errors => Problem(errors));
     }
     
@@ -66,7 +68,7 @@ public class PostController : ApiController
         var savedPosts = await _postService.GetSavedPosts(token);
 
         return savedPosts.Match(
-            savedPostsResult => Ok(savedPostsResult),
+            result => Ok(result),
             errors => Problem(errors));
     }
     
@@ -77,7 +79,7 @@ public class PostController : ApiController
         var savedPost = await _postService.SavePost(token, postId);
 
         return savedPost.Match(
-            savedPostResult => Ok(savedPostResult),
+            result => Ok(result),
             errors => Problem(errors));
     }
     
@@ -88,29 +90,29 @@ public class PostController : ApiController
         var unSavedPost = await _postService.UnSavePost(token, postId);
 
         return unSavedPost.Match(
-             unSavePostResult =>Ok(),
+            result =>Ok(),
             errors => Problem(errors));
     }
 
-    [HttpPost("likepost")]
+    [HttpPost("likepost/{postId}")]
     public async Task<IActionResult> LikePost(int postId)
     {
         string token = Request.Headers[HeaderNames.Authorization];
         var likedPost = await _postService.LikePost(token, postId);
 
         return likedPost.Match(
-            likeResult => Ok(likeResult),
+            result => Ok(result),
             errors => Problem(errors));
     }
 
-    [HttpPost("unlikepost")]
+    [HttpPost("unlikepost/{postId}")]
     public async Task<IActionResult> UnLikePost(int postId)
     {
         string token = Request.Headers[HeaderNames.Authorization];
         var unLikedPost = await _postService.UnLikePost(token, postId);
 
         return unLikedPost.Match(
-            unLikeResult => Ok(unLikeResult),
+            result => Ok(result),
             errors => Problem(errors));
     }
     
@@ -121,18 +123,18 @@ public class PostController : ApiController
         var likedPosts = await _postService.GetLikedPosts(token);
 
         return likedPosts.Match(
-            likedPostsResult => Ok(likedPostsResult),
+            result => Ok(result),
             errors => Problem(errors));
     }
     
-    [HttpGet("likes")]
+    [HttpGet("likes/{postId}")]
     public async Task<IActionResult> LikedPosts(int postId)
     {
         string token = Request.Headers[HeaderNames.Authorization];
         var likes = await _postService.GetPostLikes(postId);
 
         return likes.Match(
-            postLikes => Ok(postLikes),
+            result => Ok(result),
             errors => Problem(errors));
     }
 
@@ -142,7 +144,17 @@ public class PostController : ApiController
         string token = Request.Headers[HeaderNames.Authorization];
         var commentResult = await _postService.CommentPost(token, request.PostId, request.Text);
         return commentResult.Match(
-            commentPostResult => Ok(commentPostResult),
+            result => Ok(result),
+            errors => Problem(errors));
+    }
+
+    [HttpPost("removeComment")]
+    public async Task<IActionResult> RemoveComment(int commentId)
+    {
+        string token = Request.Headers[HeaderNames.Authorization];
+        var removeCommentResult = await _postService.RemoveComment(token, commentId);
+        return removeCommentResult.Match(
+            result => Ok(result),
             errors => Problem(errors));
     }
 
@@ -151,12 +163,21 @@ public class PostController : ApiController
     {
         string token = Request.Headers[HeaderNames.Authorization];
         var replyResult = await _postService.Reply(
-            token, 
-            request.UserId, 
-            request.CommentId, 
+            token,
+            request.UserId,
+            request.CommentId,
             request.Text);
         return replyResult.Match(
-            replyCommentResult => Ok(replyCommentResult),
+            result => Ok(result),
+            errors => Problem(errors));
+    }
+    [HttpDelete("removereply")]
+    public async Task<IActionResult> RemoveReply(int replyId)
+    {
+        string token = Request.Headers[HeaderNames.Authorization];
+        var replyResult = await _postService.RemoveReply(token, replyId);
+        return replyResult.Match(
+            result => Ok(result),
             errors => Problem(errors));
     }
 }

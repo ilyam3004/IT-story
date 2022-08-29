@@ -32,9 +32,17 @@ public partial class Errors
         public static Error LikesNotFound => Error.NotFound(
             "Post.LikesNotFound",
             "Likes not found");
+        
+        public static Error AlreadyLiked => Error.Conflict(
+            "Post.AlreadyLiked",
+            "You already liked this post");
 
         public static Error CommentNotFound => Error.NotFound(
             "Post.CommentNotFound",
             "Comment not found");
+        
+        public static Error PostWasNotLiked => Error.Conflict(
+            "Post.PostWasNotLiked",
+            "This post wasn't liked by you.");
     }
 }

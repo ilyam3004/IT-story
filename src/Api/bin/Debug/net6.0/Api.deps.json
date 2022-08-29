@@ -538,6 +538,9 @@
         }
       },
       "Contracts/1.0.0": {
+        "dependencies": {
+          "Domain": "1.0.0"
+        },
         "runtime": {
           "Contracts.dll": {}
         }
