@@ -63,7 +63,8 @@ POST {{host}}/auth/register
 }
 ```
 After registration we can login to our account.
-[⬆ Back to navigation⬆ ](#it-story-api)
+
+[⬆Back to navigation](#it-story-api)
 ### Login
 
 ```js
@@ -96,7 +97,7 @@ POST {{host}}/auth/login
   "status": "student"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 
 ## Posts
 
@@ -137,7 +138,7 @@ Authorization: your_token;
   "likes": 0
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Edit posts
 
 If you want to edit posts you need login and make this request.
@@ -176,7 +177,7 @@ Authorization: your_token;
   "likes": 124
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 
 ### Remove posts
 
@@ -214,7 +215,7 @@ or 404 if post was not found.
     "traceId": "00-eb8b754c730f4594ee822b8a3479888d-52c96af4b54c61cb-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Like posts
 
 To like posts you need login and make this one.
@@ -260,7 +261,7 @@ or 409 if you already liked it.
     "traceId": "00-921aa53f0ab828d52bd5a362737b7f11-b84ab3e22c5d7815-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Unlike posts
 
 To remove like from posts you need login and make this one.
@@ -306,7 +307,7 @@ or 409 if you don't like this post.
     "traceId": "00-0f36ba4ed7221f2a9ae018aeaeb54a3c-1ec3a53ac6adf0d4-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Liked posts
 
 To get all posts you liked make this request.
@@ -367,7 +368,7 @@ or 404 if you haven't liked any posts.
     "traceId": "00-c427120473272a8709b17eb6e8ec175c-c7fad1e165f4dcd5-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Comment post
 
 To comment on posts you need login and make this request.
@@ -414,7 +415,7 @@ It will return 200 OK and post with new comment
     "likes": 3
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 
 ### Remove comment
 
@@ -450,7 +451,7 @@ or 404 if comment wasn't found.
     "traceId": "00-6c08b391bbe1ea565e8fc65e938c6a0d-61e9d3c90048baf2-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Reply comment
 
 To reply comment you need login and make this request.
@@ -493,7 +494,7 @@ or 404 if comment wasn't found.
     "traceId": "00-6c08b391bbe1ea565e8fc65e938c6a0d-61e9d3c90048baf2-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 
 ### Remove reply
 
@@ -527,7 +528,7 @@ or 404 if reply wasn't found.
     "traceId": "00-6c08b391bbe1ea565e8fc65e938c6a0d-61e9d3c90048baf2-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Save post to bookmarks
 
 To save post to bookmarks you need to make this one.
@@ -569,7 +570,7 @@ or 404 if post wasn't found.
     "traceId": "00-07ca577eb1fb2ad5325eee3ab40a47a9-310a987dc7e16b45-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Remove post from bookmarks
 
 To remove post from your bookmarks you need to make this one.
@@ -605,7 +606,7 @@ or 404 if post wasn't found.
     "traceId": "00-b69d4d5be7afd34860d1b23401cc5155-379626810cf1c56d-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Get Bookmarks
 
 
@@ -666,7 +667,7 @@ or 404 if post wasn't found.
     "traceId": "00-6b8fa3b3ba57dfa8cc2c343429963080-3b73e0e736efaba2-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ## Following system
 
 ### Get followers
@@ -721,7 +722,7 @@ or 404 if followers wasn't found.
     "traceId": "00-a547e12703e343860ec340131f8df0e8-ededeae2cfbc931c-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Get followings
 
 To watch all your followings you need to make this request.
@@ -776,7 +777,7 @@ or 404 if followings wasn't found.
     "traceId": "00-aed80dccb239a34590fb5584c0c42061-36bf620ff07ad344-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Follow user
 
 To follow someone make this request.
@@ -818,7 +819,7 @@ or 404 if user would you want to follow wasn't found.
     "traceId": "00-4dc7c869cd7b580e750a2ea113a930f9-6fc1e60b8e3293b0-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 ### Unfollow user
 
 To unfollow someone make this request.
@@ -856,5 +857,5 @@ or 404 if user would you want to unfollow wasn't found.
     "traceId": "00-5d6297227f01ca7e24209aed794aa8eb-54952409e40abf01-00"
 }
 ```
-[⬆ Back to navigation⬆ ](#it-story-api)
+[⬆Back to navigation](#it-story-api)
 
