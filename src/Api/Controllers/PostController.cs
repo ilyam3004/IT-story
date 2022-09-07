@@ -39,7 +39,7 @@ public class PostController : ApiController
             errors => Problem(errors));
     }
 
-    [HttpDelete("removepost")]
+    [HttpDelete("removepost/{postId}")]
     public async Task<IActionResult> RemovePost(int postId)
     {
         string token = Request.Headers[HeaderNames.Authorization];
@@ -61,7 +61,7 @@ public class PostController : ApiController
             errors => Problem(errors));
     }
     
-    [HttpGet("savedposts")]
+    [HttpGet("bookmarks")]
     public async Task<IActionResult> SavedPosts()
     {
         string token = Request.Headers[HeaderNames.Authorization];
@@ -72,7 +72,7 @@ public class PostController : ApiController
             errors => Problem(errors));
     }
     
-    [HttpPost("savepost")]
+    [HttpPost("savepost/{postId}")]
     public async Task<IActionResult> SavePost(int postId)
     {
         string token = Request.Headers[HeaderNames.Authorization];
@@ -83,14 +83,14 @@ public class PostController : ApiController
             errors => Problem(errors));
     }
     
-    [HttpDelete("unsavepost")]
+    [HttpDelete("unsavepost/{postId}")]
     public async Task<IActionResult> UnSavePost(int postId)
     {
         string token = Request.Headers[HeaderNames.Authorization];
         var unSavedPost = await _postService.UnSavePost(token, postId);
 
         return unSavedPost.Match(
-            result =>Ok(),
+            result =>Ok(result),
             errors => Problem(errors));
     }
 
@@ -148,7 +148,7 @@ public class PostController : ApiController
             errors => Problem(errors));
     }
 
-    [HttpPost("removeComment")]
+    [HttpDelete("removeComment/{commentId}")]
     public async Task<IActionResult> RemoveComment(int commentId)
     {
         string token = Request.Headers[HeaderNames.Authorization];
@@ -171,7 +171,7 @@ public class PostController : ApiController
             result => Ok(result),
             errors => Problem(errors));
     }
-    [HttpDelete("removereply")]
+    [HttpDelete("removereply/{replyId}")]
     public async Task<IActionResult> RemoveReply(int replyId)
     {
         string token = Request.Headers[HeaderNames.Authorization];

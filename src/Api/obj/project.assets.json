@@ -740,26 +740,27 @@
           }
         }
       },
-      "application/1.0.0": {
+      "Application/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
-          "domain": "1.0.0"
+          "Contracts": "1.0.0",
+          "Domain": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
         },
         "compile": {
-          "bin/placeholder/application.dll": {}
+          "bin/placeholder/Application.dll": {}
         },
         "runtime": {
-          "bin/placeholder/application.dll": {}
+          "bin/placeholder/Application.dll": {}
         }
       },
       "Contracts/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
-          "domain": "1.0.0"
+          "Domain": "1.0.0"
         },
         "compile": {
           "bin/placeholder/Contracts.dll": {}
@@ -768,35 +769,36 @@
           "bin/placeholder/Contracts.dll": {}
         }
       },
-      "domain/1.0.0": {
+      "Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "ErrorOr": "0.1.0"
         },
         "compile": {
-          "bin/placeholder/domain.dll": {}
+          "bin/placeholder/Domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/domain.dll": {}
+          "bin/placeholder/Domain.dll": {}
         }
       },
-      "infrastructure/1.0.0": {
+      "Infrastructure/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
+          "Application": "1.0.0",
+          "Contracts": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.7",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.7",
           "Microsoft.Extensions.Configuration": "6.0.1",
           "Microsoft.Extensions.Options.Configurationextensions": "6.0.0",
-          "System.IdentityModel.Tokens.Jwt": "6.21.0",
-          "application": "1.0.0"
+          "System.IdentityModel.Tokens.Jwt": "6.21.0"
         },
         "compile": {
-          "bin/placeholder/infrastructure.dll": {}
+          "bin/placeholder/Infrastructure.dll": {}
         },
         "runtime": {
-          "bin/placeholder/infrastructure.dll": {}
+          "bin/placeholder/Infrastructure.dll": {}
         }
       }
     }
@@ -2221,33 +2223,33 @@
         "version.txt"
       ]
     },
-    "application/1.0.0": {
+    "Application/1.0.0": {
       "type": "project",
-      "path": "../Application/application.csproj",
-      "msbuildProject": "../Application/application.csproj"
+      "path": "../Application/Application.csproj",
+      "msbuildProject": "../Application/Application.csproj"
     },
     "Contracts/1.0.0": {
       "type": "project",
       "path": "../Contracts/Contracts.csproj",
       "msbuildProject": "../Contracts/Contracts.csproj"
     },
-    "domain/1.0.0": {
+    "Domain/1.0.0": {
       "type": "project",
-      "path": "../Domain/domain.csproj",
-      "msbuildProject": "../Domain/domain.csproj"
+      "path": "../Domain/Domain.csproj",
+      "msbuildProject": "../Domain/Domain.csproj"
     },
-    "infrastructure/1.0.0": {
+    "Infrastructure/1.0.0": {
       "type": "project",
-      "path": "../Infrastructure/infrastructure.csproj",
-      "msbuildProject": "../Infrastructure/infrastructure.csproj"
+      "path": "../Infrastructure/Infrastructure.csproj",
+      "msbuildProject": "../Infrastructure/Infrastructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
+      "Application >= 1.0.0",
       "Contracts >= 1.0.0",
-      "Newtonsoft.Json >= 13.0.1",
-      "application >= 1.0.0",
-      "infrastructure >= 1.0.0"
+      "Infrastructure >= 1.0.0",
+      "Newtonsoft.Json >= 13.0.1"
     ]
   },
   "packageFolders": {
@@ -2256,11 +2258,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\Projects\\it-story\\src\\Api\\Api.csproj",
+      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj",
       "projectName": "Api",
-      "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Api\\Api.csproj",
+      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\api\\Api.csproj",
       "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-      "outputPath": "D:\\Learning\\Projects\\it-story\\src\\Api\\obj\\",
+      "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\api\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -2275,14 +2277,14 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Learning\\Projects\\it-story\\src\\Application\\Application.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Application\\Application.csproj"
+            "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Application\\Application.csproj"
             },
-            "D:\\Learning\\Projects\\it-story\\src\\Contracts\\Contracts.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Contracts\\Contracts.csproj"
+            "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\Contracts.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\Contracts.csproj"
             },
-            "D:\\Learning\\Projects\\it-story\\src\\Infrastructure\\Infrastructure.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Infrastructure\\Infrastructure.csproj"
+            "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Infrastructure\\Infrastructure.csproj"
             }
           }
         }

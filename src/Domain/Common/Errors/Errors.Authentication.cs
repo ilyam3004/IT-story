@@ -30,11 +30,11 @@ public static partial class Errors
             "Auth.UserNotFound",
             "Account not found");
         
-        public static Error WrongToken => Error.Conflict(
+        public static Error WrongToken => Error.Validation(
             "Post.WrongToken",
             "Wrong token");
         
-        public static Error TokenNotFound => Error.NotFound(
+        public static Error TokenNotFound => Error.Validation(
             "Post.TokenNotFound",
             "Token not found");
     }

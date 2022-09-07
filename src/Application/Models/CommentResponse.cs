@@ -1,11 +1,11 @@
-﻿using Domain.Entities;
+﻿using Contracts.Posts;
 
 namespace Application.Models;
 
-public record CommentResult(
+public record CommentResponse(
     int Id,
     int PostId,
     int UserId,
     string Text,
     string Date,
-    List<Reply> Replies);
+    List<ReplyResponse> Replies);

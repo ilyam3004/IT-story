@@ -35,7 +35,7 @@ public class FollowersController : ApiController
             errors => Problem(errors));
     }
 
-    [HttpPost("follow")]
+    [HttpPost("follow/{followingId}")]
     public async Task<IActionResult> Follow(int followingId)
     {
         var token = Request.Headers[HeaderNames.Authorization];
@@ -46,7 +46,7 @@ public class FollowersController : ApiController
             errors => Problem(errors));
     }
     
-    [HttpDelete("unfollow")]
+    [HttpDelete("unfollow/{unFollowingId}")]
     public async Task<IActionResult> UnFollow(int unFollowingId)
     {
         var token = Request.Headers[HeaderNames.Authorization];

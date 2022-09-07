@@ -108,7 +108,7 @@ public class FollowingService : IFollowingService
         return new FollowingResult(following!.Id, following.FollowingId, following.FollowerId);
     }
 
-    public async Task<ErrorOr<FollowingResult>> UnFollow(string token, int unFollowingId)
+    public async Task<ErrorOr<string>> UnFollow(string token, int unFollowingId)
     {
         if (token == String.Empty)
             return Errors.Authentication.TokenNotFound;
@@ -129,6 +129,6 @@ public class FollowingService : IFollowingService
 
         await _followingRepository.RemoveFollowing(unFollowing);
 
-        return new FollowingResult(unFollowing!.Id, unFollowing.FollowingId, unFollowing.FollowerId);
+        return Correct.Followings.Unfollow + $" {userToUnFollow.Username}";
     }
 }

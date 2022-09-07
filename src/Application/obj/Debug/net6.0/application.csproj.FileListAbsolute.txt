@@ -13,3 +13,5 @@ D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\ref\application.d
 D:\Learning\Projects\IT-story\src\Application\bin\Debug\net6.0\domain.dll
 D:\Learning\Projects\IT-story\src\Application\bin\Debug\net6.0\domain.pdb
 D:\Learning\Projects\IT-story\src\Application\obj\Debug\net6.0\application.csproj.CopyComplete
+D:\Learning\Projects\it-story\src\Application\bin\Debug\net6.0\Contracts.dll
+D:\Learning\Projects\it-story\src\Application\bin\Debug\net6.0\Contracts.pdb

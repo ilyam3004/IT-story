@@ -42,8 +42,7 @@ public class PostRepository : IPostRepository
     }
 
     public async Task<List<SavedPost>> GetSavedPosts(int id)
-        => await _db.SavedPosts
-            .Where(post => post.UserId == id)
+        => await _db.SavedPosts.Where(post => post.UserId == id)
             .ToListAsync();
 
     public async Task<SavedPost?> GetSavedPostById(int id)

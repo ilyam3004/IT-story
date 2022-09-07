@@ -3,6 +3,7 @@ using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
 using Application.Models;
 using Application.Services;
+using Contracts.Posts;
 using Domain.Common.Errors;
 using Domain.Entities;
 using ErrorOr;
@@ -39,16 +40,27 @@ public class PostService : IPostService
         foreach (var post in posts)
         {
             var dbComments = await _postRepository.GetComments(post.Id);
-            List<CommentResult> comments = new();
+            List<CommentResponse> comments = new();
             foreach (var item in dbComments)
             {
-                var replies = SortReplies(await _postRepository.GetReplies(item.Id));
-                comments.Add(new CommentResult(
+                var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+                var replies = new List<ReplyResponse>();
+            
+                foreach (var dbReply in dbReplies)
+                    replies.Add(new ReplyResponse(
+                        dbReply.Id,
+                        dbReply.CommentId,
+                        (await _userRepository.GetUserById(dbReply.UserId))!,
+                        (await _userRepository.GetUserById(dbReply.ReplierId))!,
+                        dbReply.Text,
+                        dbReply.Data));
+            
+                comments.Add(new CommentResponse(
                     item.Id,
                     item.PostId,
                     item.UserId,
                     item.Text,
-                    item.Date,
+                    item.Date, 
                     replies));
             }
 
@@ -81,20 +93,30 @@ public class PostService : IPostService
         };
         var post = await _postRepository.AddPost(postToAdd);
         var dbComments = await _postRepository.GetComments(post.Id);
-        List<CommentResult> comments = new();
+        List<CommentResponse> comments = new();
 
-        foreach (var comment in dbComments)
+        foreach (var item in dbComments)
         {
-            var replies = SortReplies(await _postRepository.GetReplies(comment.Id));
-            comments.Add(new CommentResult(
-                comment.Id,
-                comment.PostId,
-                comment.UserId,
-                comment.Text,
-                comment.Date,
+            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+            var replies = new List<ReplyResponse>();
+            
+            foreach (var dbReply in dbReplies)
+                replies.Add(new ReplyResponse(
+                    dbReply.Id,
+                    dbReply.CommentId,
+                    (await _userRepository.GetUserById(dbReply.UserId))!,
+                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
+                    dbReply.Text,
+                    dbReply.Data));
+            
+            comments.Add(new CommentResponse(
+                item.Id,
+                item.PostId,
+                item.UserId,
+                item.Text,
+                item.Date, 
                 replies));
         }
-
         return new PostResult(
             post.Id,
             post.UserId,
@@ -143,20 +165,30 @@ public class PostService : IPostService
         var editedPost = await _postRepository.EditPost(postToEdit, newText);
         var dbComments = await _postRepository.GetComments(editedPost.Id);
         
-        List<CommentResult> comments = new();
+        List<CommentResponse> comments = new();
         
         foreach (var item in dbComments)
         {
-            var replies = SortReplies(await _postRepository.GetReplies(item.Id));
-            comments.Add(new CommentResult(
+            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+            var replies = new List<ReplyResponse>();
+            
+            foreach (var dbReply in dbReplies)
+                replies.Add(new ReplyResponse(
+                    dbReply.Id,
+                    dbReply.CommentId,
+                    (await _userRepository.GetUserById(dbReply.UserId))!,
+                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
+                    dbReply.Text,
+                    dbReply.Data));
+            
+            comments.Add(new CommentResponse(
                 item.Id,
                 item.PostId,
                 item.UserId,
                 item.Text,
-                item.Date,
+                item.Date, 
                 replies));
         }
-        
         return new PostResult(
             editedPost.Id,
             editedPost.UserId,
@@ -187,16 +219,27 @@ public class PostService : IPostService
                 continue;
             
             var dbComments = await _postRepository.GetComments(post.Id);
-            List<CommentResult> comments = new();
-            foreach (var comment in dbComments)
+            List<CommentResponse> comments = new();
+            foreach (var item in dbComments)
             {
-                var replies = SortReplies(await _postRepository.GetReplies(comment.Id));
-                comments.Add(new CommentResult(
-                    comment.Id,
-                    comment.PostId,
-                    comment.UserId,
-                    comment.Text,
-                    comment.Date,
+                var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+                var replies = new List<ReplyResponse>();
+            
+                foreach (var dbReply in dbReplies)
+                    replies.Add(new ReplyResponse(
+                        dbReply.Id,
+                        dbReply.CommentId,
+                        (await _userRepository.GetUserById(dbReply.UserId))!,
+                        (await _userRepository.GetUserById(dbReply.ReplierId))!,
+                        dbReply.Text,
+                        dbReply.Data));
+            
+                comments.Add(new CommentResponse(
+                    item.Id,
+                    item.PostId,
+                    item.UserId,
+                    item.Text,
+                    item.Date, 
                     replies));
             }
             savedPosts.Add(new PostResult(
@@ -233,23 +276,33 @@ public class PostService : IPostService
         await _postRepository.SavePost(new SavedPost
         {
             PostId = postToSave.Id,
-            UserId = postToSave.UserId
+            UserId = _jwtTokenGenerator.ReadToken(token)
         });
         var dbComments = await _postRepository.GetComments(postId);
-        List<CommentResult> comments = new();
+        List<CommentResponse> comments = new();
 
-        foreach (var comment in dbComments)
+        foreach (var item in dbComments)
         {
-            var replies = SortReplies(await _postRepository.GetReplies(comment.Id));
-            comments.Add(new CommentResult(
-                comment.Id,
-                comment.PostId,
-                comment.UserId,
-                comment.Text,
-                comment.Date,
+            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+            var replies = new List<ReplyResponse>();
+            
+            foreach (var dbReply in dbReplies)
+                replies.Add(new ReplyResponse(
+                    dbReply.Id,
+                    dbReply.CommentId,
+                    (await _userRepository.GetUserById(dbReply.UserId))!,
+                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
+                    dbReply.Text,
+                    dbReply.Data));
+            
+            comments.Add(new CommentResponse(
+                item.Id,
+                item.PostId,
+                item.UserId,
+                item.Text,
+                item.Date, 
                 replies));
         }
-
         return new PostResult(
             postToSave.Id,
             postToSave.UserId,
@@ -300,26 +353,37 @@ public class PostService : IPostService
 
         var likedPost = await _postRepository.LikePost(post, _jwtTokenGenerator.ReadToken(token));
         var dbComments = await _postRepository.GetComments(likedPost.Id);
-        List<CommentResult> comments = new();
+        List<CommentResponse> comments = new();
         
         foreach (var item in dbComments)
         {
-            var replies = SortReplies(await _postRepository.GetReplies(item.Id));
-            comments.Add(new CommentResult(
+            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+            var replies = new List<ReplyResponse>();
+            
+            foreach (var dbReply in dbReplies)
+                replies.Add(new ReplyResponse(
+                    dbReply.Id,
+                    dbReply.CommentId,
+                    await _userRepository.GetUserById(dbReply.UserId),
+                    await _userRepository.GetUserById(dbReply.ReplierId),
+                    dbReply.Text,
+                    dbReply.Data));
+            
+            comments.Add(new CommentResponse(
                 item.Id,
                 item.PostId,
                 item.UserId,
                 item.Text,
-                item.Date,
+                item.Date, 
                 replies));
         }
         return new PostResult(
-            likedPost.Id,
-            likedPost.UserId,
-            likedPost.Text,
-            likedPost.Date,
+            post.Id,
+            post.UserId,
+            post.Text,
+            post.Date,
             SortComments(comments),
-            likedPost.Likes);
+            post.Likes);
     }
 
     public async Task<ErrorOr<PostResult>> UnLikePost(string token, int postId)
@@ -341,26 +405,37 @@ public class PostService : IPostService
         
         var unLikedPost = await _postRepository.UnLikePost(post, _jwtTokenGenerator.ReadToken(token));
         var dbComments = await _postRepository.GetComments(unLikedPost.Id);
-        List<CommentResult> comments = new();
+        List<CommentResponse> comments = new();
         
         foreach (var item in dbComments)
         {
-            var replies = SortReplies(await _postRepository.GetReplies(item.Id));
-            comments.Add(new CommentResult(
+            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+            var replies = new List<ReplyResponse>();
+            
+            foreach (var dbReply in dbReplies)
+                replies.Add(new ReplyResponse(
+                    dbReply.Id,
+                    dbReply.CommentId,
+                    await _userRepository.GetUserById(dbReply.UserId),
+                    await _userRepository.GetUserById(dbReply.ReplierId),
+                    dbReply.Text,
+                    dbReply.Data));
+            
+            comments.Add(new CommentResponse(
                 item.Id,
                 item.PostId,
                 item.UserId,
                 item.Text,
-                item.Date,
+                item.Date, 
                 replies));
         }
         return new PostResult(
-            unLikedPost.Id,
-            unLikedPost.UserId,
-            unLikedPost.Text,
-            unLikedPost.Date,
+            post.Id,
+            post.UserId,
+            post.Text,
+            post.Date,
             SortComments(comments),
-            unLikedPost.Likes);
+            post.Likes);
     }
 
     public async Task<ErrorOr<List<PostResult>>> GetLikedPosts(string token)
@@ -383,17 +458,28 @@ public class PostService : IPostService
                 continue;
             
             var dbComments = await _postRepository.GetComments(post.Id);
-            List<CommentResult> comments = new();
+            List<CommentResponse> comments = new();
         
             foreach (var item in dbComments)
             {
-                var replies = SortReplies(await _postRepository.GetReplies(item.Id));
-                comments.Add(new CommentResult(
+                var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+                var replies = new List<ReplyResponse>();
+            
+                foreach (var dbReply in dbReplies)
+                    replies.Add(new ReplyResponse(
+                        dbReply.Id,
+                        dbReply.CommentId,
+                        await _userRepository.GetUserById(dbReply.UserId),
+                        await _userRepository.GetUserById(dbReply.ReplierId),
+                        dbReply.Text,
+                        dbReply.Data));
+            
+                comments.Add(new CommentResponse(
                     item.Id,
                     item.PostId,
                     item.UserId,
                     item.Text,
-                    item.Date,
+                    item.Date, 
                     replies));
             }
             likedPosts.Add(new PostResult(
@@ -453,17 +539,28 @@ public class PostService : IPostService
         });
         
         var dbComments = await _postRepository.GetComments(post.Id);
-        List<CommentResult> comments = new();
+        List<CommentResponse> comments = new();
         
         foreach (var item in dbComments)
         {
-            var replies = SortReplies(await _postRepository.GetReplies(item.Id));
-            comments.Add(new CommentResult(
+            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+            var replies = new List<ReplyResponse>();
+            
+            foreach (var dbReply in dbReplies)
+                replies.Add(new ReplyResponse(
+                    dbReply.Id,
+                    dbReply.CommentId,
+                    await _userRepository.GetUserById(dbReply.UserId),
+                    await _userRepository.GetUserById(dbReply.ReplierId),
+                    dbReply.Text,
+                    dbReply.Data));
+            
+            comments.Add(new CommentResponse(
                 item.Id,
                 item.PostId,
                 item.UserId,
                 item.Text,
-                item.Date,
+                item.Date, 
                 replies));
         }
         return new PostResult(
@@ -486,7 +583,7 @@ public class PostService : IPostService
         var commentToRemove = await _postRepository.GetCommentById(commentId);
         
         if (commentToRemove is null)
-            return Errors.Posts.PostNotFound;
+            return Errors.Posts.CommentNotFound;
 
         if (_jwtTokenGenerator.ReadToken(token) != commentToRemove.UserId)
             return Errors.Authentication.WrongToken;
@@ -503,8 +600,8 @@ public class PostService : IPostService
 
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
-
-        if (await _postRepository.GetCommentById(commentId) is null)
+        var comment = await _postRepository.GetCommentById(commentId);
+        if (comment is null)
             return Errors.Posts.CommentNotFound;
 
         if (await _userRepository.GetUserById(userId) is null)
@@ -518,21 +615,31 @@ public class PostService : IPostService
             Data = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
             Text = text
         });
-        var comment = await _postRepository.GetCommentById(commentId);
         var post = await _postRepository.GetPostById(comment!.PostId);
         
         var dbComments = await _postRepository.GetComments(post!.Id);
-        List<CommentResult> comments = new();
+        List<CommentResponse> comments = new();
         
         foreach (var item in dbComments)
         {
-            var replies = SortReplies(await _postRepository.GetReplies(item.Id));
-            comments.Add(new CommentResult(
+            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
+            var replies = new List<ReplyResponse>();
+            
+            foreach (var dbReply in dbReplies)
+                replies.Add(new ReplyResponse(
+                    dbReply.Id,
+                    dbReply.CommentId,
+                    await _userRepository.GetUserById(dbReply.UserId),
+                    await _userRepository.GetUserById(dbReply.ReplierId),
+                    dbReply.Text,
+                    dbReply.Data));
+            
+            comments.Add(new CommentResponse(
                 item.Id,
                 item.PostId,
                 item.UserId,
                 item.Text,
-                item.Date,
+                item.Date, 
                 replies));
         }
         return new PostResult(
@@ -542,7 +649,6 @@ public class PostService : IPostService
             post.Date,
             SortComments(comments),
             post.Likes);
-        
     }
     
     public async Task<ErrorOr<string>> RemoveReply(string token, int replyId)
@@ -571,7 +677,8 @@ public class PostService : IPostService
             .OrderBy(r => r.Data)
             .ToList();
 
-    private List<CommentResult> SortComments(List<CommentResult> comments)
+    private List<CommentResponse> SortComments(List<CommentResponse> comments)
         => comments.OrderBy(c => c.Date).ToList();
+
 
 }

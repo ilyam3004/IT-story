@@ -17,3 +17,5 @@ D:\Learning\Projects\IT-story\src\Infrastructure\bin\Debug\net6.0\domain.pdb
 D:\Learning\Projects\IT-story\src\Infrastructure\obj\Debug\net6.0\infrastructure.csproj.CopyComplete
 D:\Learning\Projects\IT-story\src\infrastructure\bin\Debug\net6.0\infrastructure.runtimeconfig.json
 D:\Learning\Projects\IT-story\src\infrastructure\obj\Debug\net6.0\infrastructure.genruntimeconfig.cache
+D:\Learning\Projects\it-story\src\Infrastructure\bin\Debug\net6.0\Contracts.dll
+D:\Learning\Projects\it-story\src\Infrastructure\bin\Debug\net6.0\Contracts.pdb

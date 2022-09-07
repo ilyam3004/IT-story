@@ -5,5 +5,5 @@ public record PostResult(
     int UserId,
     string Text,
     string Date,
-    List<CommentResult> Comments,
+    List<CommentResponse> Comments,
     int Likes);

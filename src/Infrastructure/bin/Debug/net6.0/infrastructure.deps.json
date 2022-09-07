@@ -6,18 +6,19 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "infrastructure/1.0.0": {
+      "Infrastructure/1.0.0": {
         "dependencies": {
+          "Application": "1.0.0",
+          "Contracts": "1.0.0",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.7",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.7",
           "Microsoft.EntityFrameworkCore.Tools": "6.0.7",
           "Microsoft.Extensions.Configuration": "6.0.1",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "6.0.0",
-          "System.IdentityModel.Tokens.Jwt": "6.21.0",
-          "application": "1.0.0"
+          "System.IdentityModel.Tokens.Jwt": "6.21.0"
         },
         "runtime": {
-          "infrastructure.dll": {}
+          "Infrastructure.dll": {}
         }
       },
       "BCrypt.Net-Next/4.0.3": {
@@ -609,28 +610,37 @@
           }
         }
       },
-      "application/1.0.0": {
+      "Application/1.0.0": {
         "dependencies": {
           "BCrypt.Net-Next": "4.0.3",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
-          "domain": "1.0.0"
+          "Contracts": "1.0.0",
+          "Domain": "1.0.0",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0"
         },
         "runtime": {
-          "application.dll": {}
+          "Application.dll": {}
         }
       },
-      "domain/1.0.0": {
+      "Contracts/1.0.0": {
+        "dependencies": {
+          "Domain": "1.0.0"
+        },
+        "runtime": {
+          "Contracts.dll": {}
+        }
+      },
+      "Domain/1.0.0": {
         "dependencies": {
           "ErrorOr": "0.1.0"
         },
         "runtime": {
-          "domain.dll": {}
+          "Domain.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "infrastructure/1.0.0": {
+    "Infrastructure/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -1013,12 +1023,17 @@
       "path": "system.windows.extensions/4.7.0",
       "hashPath": "system.windows.extensions.4.7.0.nupkg.sha512"
     },
-    "application/1.0.0": {
+    "Application/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
     },
-    "domain/1.0.0": {
+    "Contracts/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
