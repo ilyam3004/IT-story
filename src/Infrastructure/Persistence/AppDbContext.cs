@@ -12,6 +12,10 @@ public class AppDbContext : DbContext
     public DbSet<Like> Likes => Set<Like>();
     public DbSet<Comment> Comments => Set<Comment>();
     public DbSet<Reply> Replies => Set<Reply>();
+    public DbSet<Article> Articles => Set<Article>();
+    public DbSet<ArticleLike> ArticleLikes => Set<ArticleLike>();
+    public DbSet<ArticleComment> ArticleComments => Set<ArticleComment>();
+    public DbSet<ArticleReply> ArticleReplies => Set<ArticleReply>();
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -23,5 +27,9 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Like>().ToTable("likes");
         modelBuilder.Entity<Comment>().ToTable("Comments");
         modelBuilder.Entity<Reply>().ToTable("replies");
+        modelBuilder.Entity<Article>().ToTable("article");
+        modelBuilder.Entity<ArticleLike>().ToTable("articlelikes");
+        modelBuilder.Entity<ArticleComment>().ToTable("articlecomments");
+        modelBuilder.Entity<ArticleReply>().ToTable("articlereplies");
     }
 }

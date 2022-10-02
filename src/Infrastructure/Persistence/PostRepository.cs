@@ -25,7 +25,9 @@ public class PostRepository : IPostRepository
     {
         await _db.Posts.AddAsync(post);
         await _db.SaveChangesAsync();
-        return (await _db.Posts.FirstOrDefaultAsync(p => p.UserId == post.UserId & p.Date == post.Date))!;
+        return (await _db.Posts.FirstOrDefaultAsync(p => 
+            p.UserId == post.UserId & 
+            p.Date == post.Date))!;
     }
 
     public async Task RemovePost(Post post)
@@ -88,10 +90,13 @@ public class PostRepository : IPostRepository
 
     public async Task<Like> GetLikeByPostId(int userId, int postId)
         => (await _db.Likes
-            .FirstOrDefaultAsync(like => like.PostId == postId && like.UserId == userId))!;
+            .FirstOrDefaultAsync(like => like.PostId == postId &&
+                                         like.UserId == userId))!;
 
     public async Task<List<Like>> GetPostLikes(int postId)
-        => await _db.Likes.Where(like => like.PostId == postId).ToListAsync();
+        => await _db.Likes
+            .Where(like => like.PostId == postId)
+            .ToListAsync();
 
     public async Task CreateComment(Comment comment)
     {

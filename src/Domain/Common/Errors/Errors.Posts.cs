@@ -31,7 +31,7 @@ public partial class Errors
         
         public static Error LikesNotFound => Error.NotFound(
             "Post.LikesNotFound",
-            "Likes not found");
+            "Nobody liked this post yet");
         
         public static Error AlreadyLiked => Error.Conflict(
             "Post.AlreadyLiked",
@@ -44,5 +44,35 @@ public partial class Errors
         public static Error PostWasNotLiked => Error.Conflict(
             "Post.PostWasNotLiked",
             "This post wasn't liked by you.");
+    }
+    public class Articles
+    {
+        public static Error ArticlesNotFound => Error.NotFound(
+            "Articles.NotFound",
+            "Articles not found. Share your first article");
+        
+        public static Error ArticleAlreadyLiked => Error.Conflict(
+            "Article.AlreadyLiked",
+            "You already liked this article");
+        
+        public static Error DontLikeAnyArticle => Error.NotFound(
+            "Article.YouDidn'tLikeAnyArticle",
+            "You didn't like any article");
+
+        public static Error LikesNotFound => Error.NotFound(
+            "Article.LikesNotFound",
+            "Nobody liked this article yet");
+
+        public static Error CommentNotFound => Error.NotFound(
+                "Article.CommentNotFound",
+                "Comment not found");
+        
+        public static Error ArticleNotFound => Error.NotFound(
+            "Article.NotFound",
+            "Article not found");
+        
+        public static Error ReplyNotFound => Error.NotFound(
+            "Reply.NotFound",
+            "Reply not found");
     }
 }

@@ -11,17 +11,17 @@
           "lib/net6.0/ErrorOr.dll": {}
         }
       },
-      "Domain/1.0.0": {
+      "domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "ErrorOr": "0.1.0"
         },
         "compile": {
-          "bin/placeholder/Domain.dll": {}
+          "bin/placeholder/domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Domain.dll": {}
+          "bin/placeholder/domain.dll": {}
         }
       }
     }
@@ -41,15 +41,15 @@
         "lib/net6.0/ErrorOr.xml"
       ]
     },
-    "Domain/1.0.0": {
+    "domain/1.0.0": {
       "type": "project",
-      "path": "../Domain/Domain.csproj",
-      "msbuildProject": "../Domain/Domain.csproj"
+      "path": "../Domain/domain.csproj",
+      "msbuildProject": "../Domain/domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net6.0": [
-      "Domain >= 1.0.0"
+      "domain >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -58,11 +58,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\Contracts.csproj",
+      "projectUniqueName": "D:\\Learning\\Projects\\it-story\\src\\Contracts\\Contracts.csproj",
       "projectName": "Contracts",
-      "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\Contracts.csproj",
+      "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Contracts\\Contracts.csproj",
       "packagesPath": "C:\\Users\\ilyam\\.nuget\\packages\\",
-      "outputPath": "D:\\Learning\\Projects\\IT-story\\src\\Contracts\\obj\\",
+      "outputPath": "D:\\Learning\\Projects\\it-story\\src\\Contracts\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\ilyam\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -77,8 +77,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj": {
-              "projectPath": "D:\\Learning\\Projects\\IT-story\\src\\Domain\\Domain.csproj"
+            "D:\\Learning\\Projects\\it-story\\src\\Domain\\Domain.csproj": {
+              "projectPath": "D:\\Learning\\Projects\\it-story\\src\\Domain\\Domain.csproj"
             }
           }
         }

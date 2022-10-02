@@ -1,9 +1,7 @@
-﻿using System.Globalization;
-using Application.Common.Interfaces.Authentication;
+﻿using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
 using Application.Models;
 using Application.Services;
-using Contracts.Posts;
 using Domain.Common.Errors;
 using Domain.Entities;
 using ErrorOr;
@@ -126,7 +124,7 @@ public class PostService : IPostService
             0);
     }
 
-    public async Task<ErrorOr<string>> RemovePost(string token, int postId)
+    public async Task<ErrorOr<Message>> RemovePost(string token, int postId)
     {
         if (token == String.Empty)
             return Errors.Authentication.TokenNotFound;
@@ -144,7 +142,7 @@ public class PostService : IPostService
         
         await _postRepository.RemovePost(postToRemove);
 
-        return Correct.Post.PostRemoved;
+        return new Message(Correct.Post.PostRemoved);
     }
 
     public async Task<ErrorOr<PostResult>> EditPost(int postId, string newText, string token)
@@ -224,7 +222,7 @@ public class PostService : IPostService
             {
                 var dbReplies = SortReplies(await _postRepository.GetReplies(item.Id));
                 var replies = new List<ReplyResponse>();
-            
+                    
                 foreach (var dbReply in dbReplies)
                     replies.Add(new ReplyResponse(
                         dbReply.Id,
@@ -312,7 +310,7 @@ public class PostService : IPostService
             postToSave.Likes);
     }
 
-    public async Task<ErrorOr<string>> UnSavePost(string token, int postId)
+    public async Task<ErrorOr<Message>> UnSavePost(string token, int postId)
     {
         if (token == String.Empty)
             return Errors.Authentication.TokenNotFound;
@@ -329,9 +327,9 @@ public class PostService : IPostService
             return Errors.Posts.SavedPostNotfound;
 
         await _postRepository.UnSavePost(postToUnSave);
-        return Correct.Post.PostUnSaved;
+        return new Message(Correct.Post.PostUnSaved);
     }
-
+    
     public async Task<ErrorOr<PostResult>> LikePost(string token, int postId)
     {
         if (token == String.Empty)
@@ -364,8 +362,8 @@ public class PostService : IPostService
                 replies.Add(new ReplyResponse(
                     dbReply.Id,
                     dbReply.CommentId,
-                    await _userRepository.GetUserById(dbReply.UserId),
-                    await _userRepository.GetUserById(dbReply.ReplierId),
+                    (await _userRepository.GetUserById(dbReply.UserId))!,
+                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
                     dbReply.Text,
                     dbReply.Data));
             
@@ -416,8 +414,8 @@ public class PostService : IPostService
                 replies.Add(new ReplyResponse(
                     dbReply.Id,
                     dbReply.CommentId,
-                    await _userRepository.GetUserById(dbReply.UserId),
-                    await _userRepository.GetUserById(dbReply.ReplierId),
+                    (await _userRepository.GetUserById(dbReply.UserId))!,
+                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
                     dbReply.Text,
                     dbReply.Data));
             
@@ -469,8 +467,8 @@ public class PostService : IPostService
                     replies.Add(new ReplyResponse(
                         dbReply.Id,
                         dbReply.CommentId,
-                        await _userRepository.GetUserById(dbReply.UserId),
-                        await _userRepository.GetUserById(dbReply.ReplierId),
+                        (await _userRepository.GetUserById(dbReply.UserId))!,
+                        (await _userRepository.GetUserById(dbReply.ReplierId))!,
                         dbReply.Text,
                         dbReply.Data));
             
@@ -550,8 +548,8 @@ public class PostService : IPostService
                 replies.Add(new ReplyResponse(
                     dbReply.Id,
                     dbReply.CommentId,
-                    await _userRepository.GetUserById(dbReply.UserId),
-                    await _userRepository.GetUserById(dbReply.ReplierId),
+                    (await _userRepository.GetUserById(dbReply.UserId))!,
+                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
                     dbReply.Text,
                     dbReply.Data));
             
@@ -572,7 +570,7 @@ public class PostService : IPostService
             post.Likes);
     }
 
-    public async Task<ErrorOr<string>> RemoveComment(string token, int commentId)
+    public async Task<ErrorOr<Message>> RemoveComment(string token, int commentId)
     {
         if (token == String.Empty)
             return Errors.Authentication.TokenNotFound;
@@ -590,7 +588,7 @@ public class PostService : IPostService
         
         await _postRepository.RemoveComment(commentToRemove);
 
-        return Correct.Post.CommentRemoved;
+        return new Message(Correct.Post.CommentRemoved);
     }
 
     public async Task<ErrorOr<PostResult>> Reply(string token, int userId, int commentId, string text)
@@ -629,8 +627,8 @@ public class PostService : IPostService
                 replies.Add(new ReplyResponse(
                     dbReply.Id,
                     dbReply.CommentId,
-                    await _userRepository.GetUserById(dbReply.UserId),
-                    await _userRepository.GetUserById(dbReply.ReplierId),
+                    (await _userRepository.GetUserById(dbReply.UserId))!,
+                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
                     dbReply.Text,
                     dbReply.Data));
             
@@ -651,7 +649,7 @@ public class PostService : IPostService
             post.Likes);
     }
     
-    public async Task<ErrorOr<string>> RemoveReply(string token, int replyId)
+    public async Task<ErrorOr<Message>> RemoveReply(string token, int replyId)
     {
         if (token == String.Empty)
             return Errors.Authentication.TokenNotFound;
@@ -669,7 +667,7 @@ public class PostService : IPostService
         
         await _postRepository.RemoveReply(replyToRemove);
 
-        return Correct.Post.ReplyRemoved;
+        return new Message(Correct.Post.ReplyRemoved);
     }
 
     private List<Reply> SortReplies(List<Reply> replies)
@@ -679,6 +677,4 @@ public class PostService : IPostService
 
     private List<CommentResponse> SortComments(List<CommentResponse> comments)
         => comments.OrderBy(c => c.Date).ToList();
-
-
 }

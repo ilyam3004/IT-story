@@ -23,6 +23,10 @@
     - [Get followings](#get-followings)
     - [Follow user](#follow-user)
     - [Unfollow user](#unfollow-user)
+  - [Articles](#articles)
+    - [Create articles](#create-article)
+    - [Edit articles](#edit-articles)
+    - [Remove articels](#remove-articles)
     
 
 ## Authentification
@@ -839,9 +843,11 @@ It will return 200 OK
 ```js
 200 OK
 ```
-
+and this message
 ```json
-
+{
+  "message" : "You successfully unfollow from user AlexFrost" 
+}
 ```
 or 404 if user would you want to unfollow wasn't found.
 
@@ -858,4 +864,27 @@ or 404 if user would you want to unfollow wasn't found.
 }
 ```
 [⬆Back to navigation](#it-story-api)
+
+##Articles
+An articles allows you to write and and publish text
+with max lenght of 5000 symbols.
+###Create article
+To create and article make this request
+```js
+POST {host}/articles/createarticle
+```
+#### Request headers
+
+```js
+Authorization: your_token;
+```
+####Request body
+```json
+{
+  "text" : "some text of my test article"
+}
+```
+
+
+
 

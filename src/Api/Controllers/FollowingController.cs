@@ -18,7 +18,6 @@ public class FollowersController : ApiController
     {
         var token = Request.Headers[HeaderNames.Authorization];
         var followersResult = await _followerService.GetFollowers(token);
-
         return followersResult.Match(
             result => Ok(result),
             errors => Problem(errors));
