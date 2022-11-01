@@ -4,5 +4,6 @@ public record ArticleCommentResponse(
     int ArticleId,
     int UserId,
     string Text,
-    string Date,
-    List<ArticleReplyResponse> Replies);
+    DateTime Date,
+    List<ArticleReplyResponse> Replies,
+    bool IsAuthor);

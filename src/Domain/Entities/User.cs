@@ -2,12 +2,12 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities;
-    
+
 public class User
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
+    public int User_id { get; set; }
 
     [Required]
     [MaxLength(10)]
@@ -28,8 +28,4 @@ public class User
     [Required]
     [MaxLength(100)]
     public string LastName { get; set; } = null!;
-    
-    [Required]
-    [MaxLength(10)]
-    public string Status { get; set; } = null!;
 }

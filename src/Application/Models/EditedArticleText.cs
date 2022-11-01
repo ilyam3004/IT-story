@@ -1,5 +1,5 @@
 ﻿namespace Application.Models;
 
-public record EditedArticle(
+public record EditedArticleText(
     int ArticleId,
     string NewText);

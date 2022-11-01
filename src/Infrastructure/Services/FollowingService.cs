@@ -30,28 +30,26 @@ public class FollowingService : IFollowingService
             return Errors.Authentication.WrongToken;
 
         var userId = _jwtTokenGenerator.ReadToken(token);
-        List<Following> followings = await _followingRepository.GetFollowers(userId);
-        
-        if (followings.Count == 0)
+        List<Subscribing> dbFollowers = await _followingRepository.GetFollowers(userId);
+
+        if (dbFollowers.Count == 0)
             return Errors.Following.FollowersNotFound;
-        
+
         List<Follower> followers = new();
-        foreach (var item in followings)
+        foreach (var item in dbFollowers)
         {
-            var follower = await _userRepository.GetUserById(item.FollowerId);
+            var follower = await _userRepository.GetUserById(item.Follower_id);
             if (follower is null)
                 return Errors.Following.FollowersNotFound;
             followers.Add(new Follower(
-                follower.Id,
-                follower.Email,
+                follower.User_id,
                 follower.Username,
                 follower.FirstName,
-                follower.LastName,
-                follower.Status));
+                follower.LastName));
         }
         return followers;
     }
-    
+
     public async Task<ErrorOr<List<Follower>>> GetFollowings(string token)
     {
         if (token == String.Empty)
@@ -61,28 +59,26 @@ public class FollowingService : IFollowingService
             return Errors.Authentication.WrongToken;
 
         var userId = _jwtTokenGenerator.ReadToken(token);
-        List<Following> followings = await _followingRepository.GetFollowings(userId);
-        
-        if (followings.Count == 0)
+        List<Subscribing> dbFollowings = await _followingRepository.GetFollowings(userId);
+
+        if (dbFollowings.Count == 0)
             return Errors.Following.FollowingsNotFound;
-        
-        List<Follower> userFollowings = new();
-        foreach (var item in followings)
+
+        List<Follower> followings = new();
+        foreach (var item in dbFollowings)
         {
-            var follower = await _userRepository.GetUserById(item.FollowingId);
+            var follower = await _userRepository.GetUserById(item.Following_id);
             if (follower is null)
                 return Errors.Following.FollowersNotFound;
-            userFollowings.Add(new Follower(
-                follower.Id,
-                follower.Email,
+            followings.Add(new Follower(
+                follower.User_id,
                 follower.Username,
                 follower.FirstName,
-                follower.LastName,
-                follower.Status));
+                follower.LastName));
         }
-        return userFollowings;
+        return followings;
     }
-    
+
     public async Task<ErrorOr<FollowingResult>> Follow(string token, int followingId)
     {
         if (token == String.Empty)
@@ -94,18 +90,19 @@ public class FollowingService : IFollowingService
         int followerId = _jwtTokenGenerator.ReadToken(token);
         var userToFollow = await _userRepository.GetUserById(followingId);
 
-        if (userToFollow is null || userToFollow.Id == followerId)
+        if (userToFollow is null || userToFollow.User_id == followerId)
             return Errors.Following.UserToFollowNotFound;
 
-        await _followingRepository.AddFollowing(new Following 
+        await _followingRepository.AddFollowing(new Subscribing
         {
-            FollowingId = followingId,
-            FollowerId = followerId 
+            Following_id = followingId,
+            Follower_id = followerId
         });
 
-        var following = await _followingRepository.GetFollowingById(followerId, followingId);
+        var subscribing = await _followingRepository
+            .GetFollowingById(followerId, followingId);
 
-        return new FollowingResult(following!.Id, following.FollowingId, following.FollowerId);
+        return new FollowingResult(subscribing!.Subscribing_id, subscribing.Following_id, subscribing.Follower_id);
     }
 
     public async Task<ErrorOr<Message>> UnFollow(string token, int unFollowingId)
@@ -119,7 +116,7 @@ public class FollowingService : IFollowingService
         int followerId = _jwtTokenGenerator.ReadToken(token);
         var userToUnFollow = await _userRepository.GetUserById(unFollowingId);
 
-        if (userToUnFollow is null || userToUnFollow.Id == followerId)
+        if (userToUnFollow is null || userToUnFollow.User_id == followerId)
             return Errors.Following.UserToUnFollowNotFound;
 
         var unFollowing = await _followingRepository.GetFollowingById(followerId, unFollowingId);
@@ -129,7 +126,7 @@ public class FollowingService : IFollowingService
 
         await _followingRepository.RemoveFollowing(unFollowing);
 
-        return new Message(Correct.Followings.Unfollow 
+        return new Message(Correct.Followings.Unfollow
                            + $" {userToUnFollow.Username}");
     }
 }

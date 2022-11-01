@@ -3,15 +3,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities;
 
-public class Following
+public class Subscribing
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
-
-    [Required] 
-    public int FollowingId { get; set; }
+    public int Subscribing_id { get; set; }
 
     [Required]
-    public int FollowerId { get; set; }
+    public int Following_id { get; set; }
+
+    [Required]
+    public int Follower_id { get; set; }
 }

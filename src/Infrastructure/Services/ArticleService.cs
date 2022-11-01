@@ -1,4 +1,5 @@
-﻿using Application.Models;
+﻿using System.Runtime.ExceptionServices;
+using Application.Models;
 using Application.Services;
 using Application.Common.Interfaces.Persistence;
 using Application.Common.Interfaces.Authentication;
@@ -22,105 +23,44 @@ public class ArticleService : IArticleService
     }
     public async Task<ErrorOr<List<ArticleResult>>> GetArticles(string token)
     {
-        if(token == String.Empty)
+        if (token == String.Empty)
             return Errors.Authentication.TokenNotFound;
-        
+
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
         var articles = await _articleRepository.GetArticlesByUserId(_jwtTokenGenerator.ReadToken(token));
-        if(articles.Count == 0)
+        if (articles.Count == 0)
             return Errors.Articles.ArticlesNotFound;
-        
+
         List<ArticleResult> userArticles = new();
 
-        foreach(var article in articles)
-        {
-            var dbComments = await _articleRepository.GetComments(article.Id);
-            List<ArticleCommentResponse> comments = new();
-            foreach(var item in dbComments)
-            {
-                var dbReplies = SortReplies(await _articleRepository.GetReplies(item.Id));
-                var replies = new List<ArticleReplyResponse>();
-
-                foreach (var dbReply in dbReplies)
-                    replies.Add(new ArticleReplyResponse(
-                        dbReply.Id,
-                        dbReply.ArticleCommentId,
-                        (await _userRepository.GetUserById(dbReply.UserId))!,
-                        (await _userRepository.GetUserById(dbReply.ReplierId))!,
-                        dbReply.Text,
-                        dbReply.Data));  
-                comments.Add(new ArticleCommentResponse(
-                    item.Id,
-                    item.ArticleId,
-                    item.UserId,
-                    item.Text,
-                    item.Date,
-                    replies));
-            }
-            userArticles.Add(new ArticleResult(
-                article.Id,
-                article.UserId,
-                article.Text,
-                article.Date,
-                SortComments(comments),
-                article.Likes));
-        }
+        foreach (var article in articles)
+            userArticles.Add(await MapArticleResult(article));
 
         return userArticles;
     }
 
-    public async Task<ErrorOr<ArticleResult>> AddArticle(string text, string token)
+    public async Task<ErrorOr<ArticleResult>> AddArticle(string title, string text, string token)
     {
-        if(token == string.Empty)
+        if (token == string.Empty)
             return Errors.Authentication.TokenNotFound;
-        
-        if(!_jwtTokenGenerator.CanReadToken(token))
+
+        if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
-        
+
         var articleToAdd = new Article
         {
-            UserId = _jwtTokenGenerator.ReadToken(token),
+            User_id = _jwtTokenGenerator.ReadToken(token),
+            Title = title,
             Text = text,
-            Date = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
-            Likes = 0
+            Date = DateTime.UtcNow,
+            Likes_count = 0,
+            Avg_score = 0
         };
         var article = await _articleRepository.AddArticle(articleToAdd);
-        var dbComments = await _articleRepository.GetComments(article.Id);
-        List<ArticleCommentResponse> comments = new();
 
-        foreach(var item in dbComments)
-        {
-            var dbReplies = SortReplies(await _articleRepository.GetReplies(item.Id));
-            var replies = new List<ArticleReplyResponse>();
-            
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ArticleReplyResponse(
-                    dbReply.Id,
-                    dbReply.ArticleCommentId,
-                    (await _userRepository.GetUserById(dbReply.UserId))!,
-                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
-                    dbReply.Text,
-                    dbReply.Data
-                ));
-            
-            comments.Add(new ArticleCommentResponse(
-                item.Id,
-                item.ArticleId,
-                item.UserId,
-                item.Text,
-                item.Date, 
-                replies));
-        }
-
-        return new ArticleResult(
-            article.Id,
-            article.UserId,
-            article.Text,
-            article.Date,
-            SortComments(comments),
-            0);
+        return await MapArticleResult(article);
     }
 
     public async Task<ErrorOr<Message>> RemoveArticle(string token, int articleId)
@@ -135,16 +75,16 @@ public class ArticleService : IArticleService
 
         if (articleToRemove is null)
             return Errors.Articles.ArticleNotFound;
-        
-        if (_jwtTokenGenerator.ReadToken(token) != articleToRemove.UserId)
+
+        if (_jwtTokenGenerator.ReadToken(token) != articleToRemove.User_id)
             return Errors.Authentication.WrongToken;
-        
+
         await _articleRepository.RemoveArticle(articleToRemove);
 
         return new Message(Correct.Article.ArticleRemoved);
     }
 
-    public async Task<ErrorOr<ArticleResult>> EditArticle(int articleId, string newText, string token)
+    public async Task<ErrorOr<ArticleResult>> EditArticleText(int articleId, string newText, string token)
     {
         if (token == String.Empty)
             return Errors.Authentication.TokenNotFound;
@@ -156,46 +96,35 @@ public class ArticleService : IArticleService
         if (articleToEdit is null)
             return Errors.Articles.ArticleNotFound;
 
-        if (_jwtTokenGenerator.ReadToken(token) != articleToEdit.UserId)
+        if (_jwtTokenGenerator.ReadToken(token) != articleToEdit.User_id)
             return Errors.Authentication.WrongToken;
 
-        var editedArtilce = await _articleRepository.EditArticle(articleToEdit, newText);
-        var dbComments = await _articleRepository.GetComments(editedArtilce.Id);
-        
-        List<ArticleCommentResponse> comments = new();
-        
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortReplies(await _articleRepository.GetReplies(item.Id));
-            var replies = new List<ArticleReplyResponse>();
-            
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ArticleReplyResponse(
-                    dbReply.Id,
-                    dbReply.ArticleCommentId,
-                    (await _userRepository.GetUserById(dbReply.UserId))!,
-                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
-                    dbReply.Text,
-                    dbReply.Data));
-            
-            comments.Add(new ArticleCommentResponse(
-                item.Id,
-                item.ArticleId,
-                item.UserId,
-                item.Text,
-                item.Date, 
-                replies));
-        }
-        return new ArticleResult(
-            editedArtilce.Id,
-            editedArtilce.UserId,
-            editedArtilce.Text,
-            editedArtilce.Date,
-            SortComments(comments),
-            editedArtilce.Likes);
+        return await MapArticleResult(
+            await _articleRepository
+                .EditArticleText(articleToEdit, newText));
+    }
+    
+    public async Task<ErrorOr<ArticleResult>> EditArticleTitle(int articleId, string newTitle, string token)
+    {
+        if (token == String.Empty)
+            return Errors.Authentication.TokenNotFound;
+
+        if (!_jwtTokenGenerator.CanReadToken(token))
+            return Errors.Authentication.WrongToken;
+
+        var articleToEdit = await _articleRepository.GetArticleById(articleId);
+        if (articleToEdit is null)
+            return Errors.Articles.ArticleNotFound;
+
+        if (_jwtTokenGenerator.ReadToken(token) != articleToEdit.User_id)
+            return Errors.Authentication.WrongToken;
+
+        return await MapArticleResult(
+            await _articleRepository
+                    .EditArticleTitle(articleToEdit, newTitle));
     }
 
-    public async Task<ErrorOr<ArticleResult>> LikeArticle(string token, int articleId)
+    public async Task<ErrorOr<ArticleResult>> LikeArticle(string token, int articleId, int score)
     {
         if (token == String.Empty)
             return Errors.Authentication.TokenNotFound;
@@ -209,44 +138,21 @@ public class ArticleService : IArticleService
 
         var articleLikes = await _articleRepository.GetArticleLikes(articleId);
 
-        var like = articleLikes.FirstOrDefault(l => l.UserId == _jwtTokenGenerator.ReadToken(token));
+        var like = articleLikes.FirstOrDefault(l => l.User_id == _jwtTokenGenerator.ReadToken(token));
         if (like is not null)
             return Errors.Articles.ArticleAlreadyLiked;
         
-
-        var likedArticle = await _articleRepository.LikeArticle(article, _jwtTokenGenerator.ReadToken(token));
-        var dbComments = await _articleRepository.GetComments(likedArticle.Id);
-        List<ArticleCommentResponse> comments = new();
+        double avgScore = Math.Round(
+            ((articleLikes.Sum(l => l.Score) + score) 
+             / Convert.ToDouble(articleLikes.Count + 1)), 1);
         
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortReplies(await _articleRepository.GetReplies(item.Id));
-            var replies = new List<ArticleReplyResponse>();
-            
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ArticleReplyResponse(
-                    dbReply.Id,
-                    dbReply.ArticleCommentId,
-                    (await _userRepository.GetUserById(dbReply.UserId))!,
-                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
-                    dbReply.Text,
-                    dbReply.Data));
-            
-            comments.Add(new ArticleCommentResponse(
-                item.Id,
-                item.ArticleId,
-                item.UserId,
-                item.Text,
-                item.Date, 
-                replies));
-        }
-        return new ArticleResult(
-            article.Id,
-            article.UserId,
-            article.Text,
-            article.Date,
-            SortComments(comments),
-            article.Likes);
+        var likedArticle = await _articleRepository
+                                .LikeArticle(article, 
+                                    _jwtTokenGenerator.ReadToken(token),
+                                    score,
+                                    avgScore);
+        
+        return await MapArticleResult(likedArticle);
     }
 
     public async Task<ErrorOr<ArticleResult>> UnLikeArticle(string token, int articleId)
@@ -264,44 +170,21 @@ public class ArticleService : IArticleService
         var articleLikes = await _articleRepository.GetArticleLikes(articleId);
 
         var like = articleLikes
-                    .FirstOrDefault(l => 
-                    l.UserId == _jwtTokenGenerator.ReadToken(token));
-        if(like is not null)
-            return Errors.Articles.ArticleAlreadyLiked;
-
-        var unLikedArticle = await _articleRepository.UnLikeArticle(article, _jwtTokenGenerator.ReadToken(token));
-        var dbComments = await _articleRepository.GetComments(unLikedArticle.Id);
-        List<ArticleCommentResponse> comments = new();
+                    .FirstOrDefault(l =>
+                    l.User_id == _jwtTokenGenerator.ReadToken(token));
+        if (like is null)
+            return Errors.Articles.ArticleNotLiked;
+        double avgScore = Math.Round(
+            ((articleLikes.Sum(l => l.Score) - like.Score) 
+             / Convert.ToDouble(articleLikes.Count - 1)), 1);
         
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortReplies(await _articleRepository.GetReplies(item.Id));
-            var replies = new List<ArticleReplyResponse>();
-            
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ArticleReplyResponse(
-                    dbReply.Id,
-                    dbReply.ArticleCommentId,
-                    (await _userRepository.GetUserById(dbReply.UserId))!,
-                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
-                    dbReply.Text,
-                    dbReply.Data));
-            
-            comments.Add(new ArticleCommentResponse(
-                item.Id,
-                item.ArticleId,
-                item.UserId,
-                item.Text,
-                item.Date, 
-                replies));
-        }
-        return new ArticleResult(
-            article.Id,
-            article.UserId,
-            article.Text,
-            article.Date,
-            SortComments(comments),
-            article.Likes);
+        var unLikedArticle = await _articleRepository
+                            .UnLikeArticle(
+                                article, 
+                                _jwtTokenGenerator.ReadToken(token),
+                                avgScore);
+        
+        return await MapArticleResult(unLikedArticle);
     }
 
     public async Task<ErrorOr<List<ArticleResult>>> GetLikedArticles(string token)
@@ -319,42 +202,11 @@ public class ArticleService : IArticleService
         List<ArticleResult> likedPosts = new();
         foreach (var like in likes)
         {
-            var article = await _articleRepository.GetArticleById(like.ArticleId);
+            var article = await _articleRepository.GetArticleById(like.Article_id);
             if (article is null)
                 continue;
             
-            var dbComments = await _articleRepository.GetComments(article.Id);
-            List<ArticleCommentResponse> comments = new();
-        
-            foreach (var item in dbComments)
-            {
-                var dbReplies = SortReplies(await _articleRepository.GetReplies(item.Id));
-                var replies = new List<ArticleReplyResponse>();
-            
-                foreach (var dbReply in dbReplies)
-                    replies.Add(new ArticleReplyResponse(
-                        dbReply.Id,
-                        dbReply.ArticleCommentId,
-                        (await _userRepository.GetUserById(dbReply.UserId))!,
-                        (await _userRepository.GetUserById(dbReply.ReplierId))!,
-                        dbReply.Text,
-                        dbReply.Data));
-            
-                comments.Add(new ArticleCommentResponse(
-                    item.Id,
-                    item.ArticleId,
-                    item.UserId,
-                    item.Text,
-                    item.Date, 
-                    replies));
-            }
-            likedPosts.Add(new ArticleResult(
-                article.Id,
-                article.UserId,
-                article.Text,
-                article.Date,
-                SortComments(comments),
-                article.Likes));
+            likedPosts.Add(await MapArticleResult(article));
         }
 
         return likedPosts;
@@ -369,16 +221,14 @@ public class ArticleService : IArticleService
         List<UserLikedPost> users = new();
         foreach (var like in likes)
         {
-            var user = await _userRepository.GetUserById(like.UserId);
+            var user = await _userRepository.GetUserById(like.User_id);
             if (user is null)
                 continue;
             users.Add(new UserLikedPost(
-                user.Id,
-                user.Email,
+                user.User_id,
                 user.Username,
                 user.FirstName,
-                user.LastName,
-                user.Status));
+                user.LastName));
         }
         return users;
     }
@@ -394,47 +244,54 @@ public class ArticleService : IArticleService
         var article = await _articleRepository.GetArticleById(articleId);
         if (article is null)
             return Errors.Articles.ArticleNotFound;
-
+        
+        var userId = _jwtTokenGenerator.ReadToken(token);
+        
         await _articleRepository.CreateComment(new ArticleComment
         {
-            ArticleId = article.Id,
-            Date = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
+            Article_id = article.Article_id,
+            User_id = userId,
             Text = text,
-            UserId = _jwtTokenGenerator.ReadToken(token)
+            Date = DateTime.UtcNow,
+            Is_author = (userId == article.User_id)
         });
-        
-        var dbComments = await _articleRepository.GetComments(article.Id);
+
+        var dbComments = await _articleRepository.GetComments(article.Article_id);
         List<ArticleCommentResponse> comments = new();
-        
-        foreach (var item in dbComments)
+
+        foreach (var dbComment in dbComments)
         {
-            var dbReplies = SortReplies(await _articleRepository.GetReplies(item.Id));
+            var dbReplies = SortRepliesByDate(await _articleRepository.GetReplies(dbComment.Comment_id));
             var replies = new List<ArticleReplyResponse>();
-            
+
             foreach (var dbReply in dbReplies)
                 replies.Add(new ArticleReplyResponse(
-                    dbReply.Id,
-                    dbReply.ArticleCommentId,
-                    (await _userRepository.GetUserById(dbReply.UserId))!,
-                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
+                    dbReply.Reply_id,
+                    dbReply.Comment_id,
+                    (await _userRepository.GetUserById(dbReply.User_id))!,
+                    (await _userRepository.GetUserById(dbReply.Replier_id))!,
                     dbReply.Text,
-                    dbReply.Data));
-            
+                    dbReply.Date,
+                    dbReply.Is_author));
+                
             comments.Add(new ArticleCommentResponse(
-                item.Id,
-                item.ArticleId,
-                item.UserId,
-                item.Text,
-                item.Date, 
-                replies));
+                dbComment.Comment_id,
+                dbComment.Article_id,
+                dbComment.User_id,
+                dbComment.Text,
+                dbComment.Date,
+                replies,
+                dbComment.Is_author));
         }
         return new ArticleResult(
-            article.Id,
-            article.UserId,
+            article.Article_id,
+            article.User_id,
+            article.Title,
             article.Text,
             article.Date,
-            SortComments(comments),
-            article.Likes);
+            SortCommentsByDate(comments),
+            article.Likes_count,
+            article.Avg_score);
     }
 
     public async Task<ErrorOr<ArticleResult>> Reply(string token, int userId, int commentId, string text)
@@ -450,49 +307,24 @@ public class ArticleService : IArticleService
 
         if (await _userRepository.GetUserById(userId) is null)
             return Errors.Posts.CommentNotFound;
-
+        
+        var article = await _articleRepository.GetArticleById(comment.Article_id);
+        if (article is null)
+            return Errors.Articles.ArticleNotFound;
+        
+        var replierId = _jwtTokenGenerator.ReadToken(token);
+        
         await _articleRepository.ReplyComment(new ArticleReply
         {
-            UserId = userId,
-            ReplierId = _jwtTokenGenerator.ReadToken(token),
-            ArticleCommentId = commentId,
-            Data = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.fffffffZ"),
-            Text = text
+            User_id = userId,
+            Replier_id = replierId,
+            Comment_id = commentId,
+            Date = DateTime.UtcNow,
+            Text = text,
+            Is_author = (article.User_id == replierId)
         });
-        var article = await _articleRepository.GetArticleById(comment!.ArticleId);
-        
-        var dbComments = await _articleRepository.GetComments(article!.Id);
-        List<ArticleCommentResponse> comments = new();
-        
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortReplies(await _articleRepository.GetReplies(item.Id));
-            var replies = new List<ArticleReplyResponse>();
-            
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ArticleReplyResponse(
-                    dbReply.Id,
-                    dbReply.ArticleCommentId,
-                    (await _userRepository.GetUserById(dbReply.UserId))!,
-                    (await _userRepository.GetUserById(dbReply.ReplierId))!,
-                    dbReply.Text,
-                    dbReply.Data));
-            
-            comments.Add(new ArticleCommentResponse(
-                item.Id,
-                item.ArticleId,
-                item.UserId,
-                item.Text,
-                item.Date, 
-                replies));
-        }
-        return new ArticleResult(
-            article.Id,
-            article.UserId,
-            article.Text,
-            article.Date,
-            SortComments(comments),
-            article.Likes);
+
+        return await MapArticleResult(article);
     }
 
     public async Task<ErrorOr<Message>> RemoveReply(string token, int replyId)
@@ -502,15 +334,15 @@ public class ArticleService : IArticleService
 
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
-        
+
         var replyToRemove = await _articleRepository.GetReplyById(replyId);
-        
+
         if (replyToRemove is null)
             return Errors.Articles.ReplyNotFound;
 
-        if (_jwtTokenGenerator.ReadToken(token) != replyToRemove.UserId)
+        if (_jwtTokenGenerator.ReadToken(token) != replyToRemove.User_id)
             return Errors.Authentication.WrongToken;
-        
+
         await _articleRepository.RemoveReply(replyToRemove);
 
         return new Message(Correct.Post.ReplyRemoved);
@@ -523,25 +355,65 @@ public class ArticleService : IArticleService
 
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
-        
+
         var commentToRemove = await _articleRepository.GetCommentById(commentId);
-        
+
         if (commentToRemove is null)
             return Errors.Articles.CommentNotFound;
 
-        if (_jwtTokenGenerator.ReadToken(token) != commentToRemove.UserId)
+        if (_jwtTokenGenerator.ReadToken(token) != commentToRemove.User_id)
             return Errors.Authentication.WrongToken;
-        
+
         await _articleRepository.RemoveComment(commentToRemove);
 
         return new Message(Correct.Post.CommentRemoved);
     }
+    
+    private async Task<ArticleResult> MapArticleResult(Article article)
+    {
+        var dbComments = await _articleRepository.GetComments(article.Article_id);
+        List<ArticleCommentResponse> comments = new();
 
-    private List<ArticleReply> SortReplies(List<ArticleReply> replies)
+        foreach (var dbComment in dbComments)
+        {
+            var dbReplies = SortRepliesByDate(await _articleRepository.GetReplies(dbComment.Comment_id));
+            var replies = new List<ArticleReplyResponse>();
+
+            foreach (var dbReply in dbReplies)
+                replies.Add(new ArticleReplyResponse(
+                    dbReply.Reply_id,
+                    dbReply.Comment_id,
+                    (await _userRepository.GetUserById(dbReply.User_id))!,
+                    (await _userRepository.GetUserById(dbReply.Replier_id))!,
+                    dbReply.Text,
+                    dbReply.Date,
+                    dbReply.Is_author));
+                
+            comments.Add(new ArticleCommentResponse(
+                dbComment.Comment_id,
+                dbComment.Article_id,
+                dbComment.User_id,
+                dbComment.Text,
+                dbComment.Date,
+                replies,
+                dbComment.Is_author));
+        }
+        return new ArticleResult(
+            article.Article_id,
+            article.User_id,
+            article.Title,
+            article.Text,
+            article.Date,
+            SortCommentsByDate(comments),
+            article.Likes_count,
+            article.Avg_score);
+    }
+    
+    private List<ArticleReply> SortRepliesByDate(List<ArticleReply> replies)
         => replies
-            .OrderBy(r => r.Data)
+            .OrderBy(r => r.Date)
             .ToList();
 
-    private List<ArticleCommentResponse> SortComments(List<ArticleCommentResponse> comments)
+    private List<ArticleCommentResponse> SortCommentsByDate(List<ArticleCommentResponse> comments)
         => comments.OrderBy(c => c.Date).ToList();
 }

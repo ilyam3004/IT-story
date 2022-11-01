@@ -8,5 +8,4 @@ public class RegisterRequest
     public string ConfirmPassword { get; set; } = null!;
     public string FirstName { get; set; } = null!;
     public string LastName { get; set; } = null!;
-    public string Status { get; set; } = null!;
 }

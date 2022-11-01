@@ -7,5 +7,5 @@ public record CommentResponse(
     int PostId,
     int UserId,
     string Text,
-    string Date,
+    DateTime Date,
     List<ReplyResponse> Replies);

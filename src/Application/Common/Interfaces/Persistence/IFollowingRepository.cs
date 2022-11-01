@@ -4,9 +4,9 @@ namespace Application.Common.Interfaces.Persistence;
 
 public interface IFollowingRepository
 {
-    Task<List<Following>> GetFollowers(int userId);
-    Task<List<Following>> GetFollowings(int userId);
-    Task AddFollowing(Following following);
-    Task RemoveFollowing(Following following);
-    Task<Following?> GetFollowingById(int followerId, int followingId);
+    Task<List<Subscribing>> GetFollowers(int userId);
+    Task<List<Subscribing>> GetFollowings(int userId);
+    Task AddFollowing(Subscribing following);
+    Task RemoveFollowing(Subscribing following);
+    Task<Subscribing?> GetFollowingById(int followerId, int followingId);
 }

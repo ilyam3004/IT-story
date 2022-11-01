@@ -121,7 +121,7 @@ public class PostController : ApiController
     {
         string token = Request.Headers[HeaderNames.Authorization];
         var likedPosts = await _postService.GetLikedPosts(token);
-
+        
         return likedPosts.Match(
             result => Ok(result),
             errors => Problem(errors));
@@ -171,6 +171,7 @@ public class PostController : ApiController
             result => Ok(result),
             errors => Problem(errors));
     }
+    
     [HttpDelete("removereply/{replyId}")]
     public async Task<IActionResult> RemoveReply(int replyId)
     {
@@ -180,4 +181,5 @@ public class PostController : ApiController
             result => Ok(result),
             errors => Problem(errors));
     }
+
 }

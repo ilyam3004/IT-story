@@ -8,9 +8,10 @@ public interface IArticleRepository
     Task<Article?> GetArticleById(int postId);
     Task<Article> AddArticle(Article article);
     Task RemoveArticle(Article article);
-    Task<Article> EditArticle(Article article, string newText);
-    Task<Article> LikeArticle(Article article, int userId);
-    Task<Article> UnLikeArticle(Article article, int userId);
+    Task<Article> EditArticleText(Article article, string newText);
+    Task<Article> EditArticleTitle(Article article, string newTitle);
+    Task<Article> LikeArticle(Article article, int userId, int score, double avgScore);
+    Task<Article> UnLikeArticle(Article article, int userId, double avgScore);
     Task<List<ArticleLike>> LikedArticles(int userId);
     Task<ArticleLike> GetLikeByArticleId(int userId, int articleId);
     Task<List<ArticleLike>> GetArticleLikes(int articleId);

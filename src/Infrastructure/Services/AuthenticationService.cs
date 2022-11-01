@@ -20,14 +20,14 @@ public class AuthenticationService : IAuthenticationService
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Register(string username, string email, string password, string confirmPassword, string firstName, string lastName, string status)
+    public async Task<ErrorOr<AuthenticationResult>> Register(string username, string email, string password, string confirmPassword, string firstName, string lastName)
     {
         if (password.Length is > 60 or < 8)
             return Errors.Authentication.InvalidPassword;
-        
+
         if (await _userRepository.GetByEmail(email) is not null)
             return Errors.Authentication.DuplicateEmail;
-        
+
         if (await _userRepository.GetByUserName(username) is not null)
             return Errors.Authentication.DuplicateUserName;
 
@@ -39,20 +39,19 @@ public class AuthenticationService : IAuthenticationService
 
         var user = new User
         {
-            Username = username, 
-            Email = email, 
-            Password = BCrypt.Net.BCrypt.HashPassword(password), 
-            FirstName = firstName, 
-            LastName = lastName, 
-            Status = status
+            Username = username,
+            Email = email,
+            Password = BCrypt.Net.BCrypt.HashPassword(password),
+            FirstName = firstName,
+            LastName = lastName
         };
 
-        await _userRepository.Add(user);
+        await _userRepository.AddUser(user);
 
         var tokenUser = await _userRepository.GetByEmail(user.Email);
-        
+
         return new AuthenticationResult
-        { 
+        {
             User = user,
             Token = _jwtTokenGenerator.GenerateToken(tokenUser!)
         };
@@ -62,10 +61,10 @@ public class AuthenticationService : IAuthenticationService
     {
 
         var user = await _userRepository.GetByEmail(email);
-        
+
         if (user is null)
             return Errors.Authentication.UserNotFound;
-        
+
         if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
             return Errors.Authentication.UserNotFound;
 

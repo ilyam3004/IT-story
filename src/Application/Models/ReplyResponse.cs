@@ -8,4 +8,4 @@ public record ReplyResponse(
     User User,
     User Replier,
     string Text,
-    string Data);
+    DateTime Date);

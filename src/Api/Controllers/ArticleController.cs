@@ -28,11 +28,12 @@ public class ArticleController : ApiController
     }
 
     [HttpPost("addarticle")]
-    public async Task<IActionResult> AddArticle(PostRequest request)
+    public async Task<IActionResult> AddArticle(ArticleRequest request)
     {
         var token = Request.Headers[HeaderNames.Authorization];
         
         var articleAddResult = await _articleService.AddArticle(
+            request.Title,
             request.Text, 
             token);
         
@@ -53,12 +54,12 @@ public class ArticleController : ApiController
             errors => Problem(errors));
     }
 
-    [HttpPut("editarticle")]
-    public async Task<IActionResult> EditArticle(EditedArticle article)
+    [HttpPut("editarticletext")]
+    public async Task<IActionResult> EditArticleText(EditedArticleText article)
     {
         var token = Request.Headers[HeaderNames.Authorization];
         var editArticleResult = await _articleService
-            .EditArticle(article.ArticleId, 
+            .EditArticleText(article.ArticleId, 
                          article.NewText, 
                          token);
         
@@ -66,13 +67,27 @@ public class ArticleController : ApiController
             result => Ok(result),
             errors => Problem(errors));
     }
+    
+    [HttpPut("editarticletitle")]
+    public async Task<IActionResult> EditArticleTitle(EditedArticleTitle article)
+    {
+        var token = Request.Headers[HeaderNames.Authorization];
+        var editArticleResult = await _articleService
+            .EditArticleTitle(article.ArticleId, 
+                article.NewTitle, 
+                token);
+        
+        return editArticleResult.Match(
+            result => Ok(result),
+            errors => Problem(errors));
+    }
 
-    [HttpPost("likearticle/{articleId}")]
-    public async Task<IActionResult> LikeArticle(int articleId)
+    [HttpPost("likearticle/{articleId}/{score}")]
+    public async Task<IActionResult> LikeArticle(int articleId, int score)
     {
         string token = Request.Headers[HeaderNames.Authorization];
         var likeArticleResult = await _articleService
-                .LikeArticle(token, articleId);
+                .LikeArticle(token, articleId, score);
 
         return likeArticleResult.Match(
             result => Ok(result),

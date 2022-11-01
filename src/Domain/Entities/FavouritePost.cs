@@ -3,14 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities;
 
-public class Like
+public class FavouritePost
 {
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
-    
-    [Required] 
-    public int UserId { get; set; }
 
-    [Required] 
-    public int PostId { get; set; }
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Favourite_id { get; set; }
+
+    [Required]
+    public int User_id { get; set; }
+
+    [Required]
+    public int Post_id { get; set; }
 }

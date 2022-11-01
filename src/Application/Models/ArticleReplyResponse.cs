@@ -8,4 +8,5 @@ public record ArticleReplyResponse(
     User User,
     User Replier,
     string Text,
-    string Data);
+    DateTime Date,
+    bool isAuthor);

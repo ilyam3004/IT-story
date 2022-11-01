@@ -3,7 +3,9 @@ namespace Application.Models;
 public record ArticleResult(
     int Id,
     int UserId,
+    string Title,
     string Text,
-    string Date,
+    DateTime Date,
     List<ArticleCommentResponse> Comments,
-    int Likes);
+    int Likes,
+    double AvgScore);

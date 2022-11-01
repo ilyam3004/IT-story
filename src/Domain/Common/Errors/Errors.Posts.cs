@@ -74,5 +74,9 @@ public partial class Errors
         public static Error ReplyNotFound => Error.NotFound(
             "Reply.NotFound",
             "Reply not found");
+       
+        public static Error ArticleNotLiked => Error.NotFound(
+            "Article.NotLiked",
+            "You already don't like this article");
     }
 }
