@@ -5,7 +5,7 @@ namespace Application.Services;
 
 public interface IArticleService
 {
-    Task<ErrorOr<List<ArticleResult>>> GetArticles(string token);
+    Task<ErrorOr<List<ArticleResult>>> GetUserArticles(string token);
     Task<ErrorOr<ArticleResult>> AddArticle(string title, string text, string token);
     Task<ErrorOr<Message>> RemoveArticle(string token, int articleId);
     Task<ErrorOr<ArticleResult>> EditArticleText(int articleId, string newText, string token);

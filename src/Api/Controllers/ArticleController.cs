@@ -21,7 +21,7 @@ public class ArticleController : ApiController
     public async Task<IActionResult> GetArticles()
     {
         var token = Request.Headers[HeaderNames.Authorization];
-        var articles = await _articleService.GetArticles(token);
+        var articles = await _articleService.GetUserArticles(token);
         return articles.Match(
             result => Ok(result),
             errors => Problem(errors));

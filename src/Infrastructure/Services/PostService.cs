@@ -41,7 +41,7 @@ public class PostService : IPostService
             List<CommentResponse> comments = new();
             foreach (var item in dbComments)
             {
-                var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+                var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
                 var replies = new List<ReplyResponse>();
 
                 foreach (var dbReply in dbReplies)
@@ -67,7 +67,7 @@ public class PostService : IPostService
                 post.User_id,
                 post.Text,
                 post.Date,
-                SortComments(comments),
+                SortCommentByDate(comments),
                 post.Likes_count));
         }
 
@@ -95,7 +95,7 @@ public class PostService : IPostService
 
         foreach (var item in dbComments)
         {
-            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
             var replies = new List<ReplyResponse>();
 
             foreach (var dbReply in dbReplies)
@@ -120,7 +120,7 @@ public class PostService : IPostService
             post.User_id,
             post.Text,
             post.Date,
-            SortComments(comments),
+            SortCommentByDate(comments),
             0);
     }
 
@@ -167,7 +167,7 @@ public class PostService : IPostService
 
         foreach (var item in dbComments)
         {
-            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
             var replies = new List<ReplyResponse>();
 
             foreach (var dbReply in dbReplies)
@@ -192,7 +192,7 @@ public class PostService : IPostService
             editedPost.User_id,
             editedPost.Text,
             editedPost.Date,
-            SortComments(comments),
+            SortCommentByDate(comments),
             editedPost.Likes_count);
     }
 
@@ -220,7 +220,7 @@ public class PostService : IPostService
             List<CommentResponse> comments = new();
             foreach (var item in dbComments)
             {
-                var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+                var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
                 var replies = new List<ReplyResponse>();
 
                 foreach (var dbReply in dbReplies)
@@ -245,7 +245,7 @@ public class PostService : IPostService
                 post.User_id,
                 post.Text,
                 post.Date,
-                SortComments(comments),
+                SortCommentByDate(comments),
                 post.Likes_count));
         }
 
@@ -281,7 +281,7 @@ public class PostService : IPostService
 
         foreach (var item in dbComments)
         {
-            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
             var replies = new List<ReplyResponse>();
 
             foreach (var dbReply in dbReplies)
@@ -306,7 +306,7 @@ public class PostService : IPostService
             postToSave.User_id,
             postToSave.Text,
             postToSave.Date,
-            SortComments(comments),
+            SortCommentByDate(comments),
             postToSave.Likes_count);
     }
 
@@ -355,7 +355,7 @@ public class PostService : IPostService
 
         foreach (var item in dbComments)
         {
-            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
             var replies = new List<ReplyResponse>();
 
             foreach (var dbReply in dbReplies)
@@ -380,7 +380,7 @@ public class PostService : IPostService
             post.User_id,
             post.Text,
             post.Date,
-            SortComments(comments),
+            SortCommentByDate(comments),
             post.Likes_count);
     }
 
@@ -407,7 +407,7 @@ public class PostService : IPostService
 
         foreach (var item in dbComments)
         {
-            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
             var replies = new List<ReplyResponse>();
 
             foreach (var dbReply in dbReplies)
@@ -432,7 +432,7 @@ public class PostService : IPostService
             post.User_id,
             post.Text,
             post.Date,
-            SortComments(comments),
+            SortCommentByDate(comments),
             post.Likes_count);
     }
 
@@ -460,7 +460,7 @@ public class PostService : IPostService
 
             foreach (var item in dbComments)
             {
-                var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+                var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
                 var replies = new List<ReplyResponse>();
 
                 foreach (var dbReply in dbReplies)
@@ -485,7 +485,7 @@ public class PostService : IPostService
                 post.User_id,
                 post.Text,
                 post.Date,
-                SortComments(comments),
+                SortCommentByDate(comments),
                 post.Likes_count));
         }
 
@@ -539,7 +539,7 @@ public class PostService : IPostService
 
         foreach (var item in dbComments)
         {
-            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
             var replies = new List<ReplyResponse>();
 
             foreach (var dbReply in dbReplies)
@@ -564,7 +564,7 @@ public class PostService : IPostService
             post.User_id,
             post.Text,
             post.Date,
-            SortComments(comments),
+            SortCommentByDate(comments),
             post.Likes_count);
     }
 
@@ -618,7 +618,7 @@ public class PostService : IPostService
 
         foreach (var item in dbComments)
         {
-            var dbReplies = SortReplies(await _postRepository.GetReplies(item.Comment_id));
+            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
             var replies = new List<ReplyResponse>();
 
             foreach (var dbReply in dbReplies)
@@ -643,7 +643,7 @@ public class PostService : IPostService
             post.User_id,
             post.Text,
             post.Date,
-            SortComments(comments),
+            SortCommentByDate(comments),
             post.Likes_count);
     }
 
@@ -668,11 +668,11 @@ public class PostService : IPostService
         return new Message(Correct.Post.ReplyRemoved);
     }
 
-    private List<PostReply> SortReplies(List<PostReply> replies)
+    private List<PostReply> SortRepliesByDate(List<PostReply> replies)
         => replies
             .OrderBy(r => r.Date)
             .ToList();
 
-    private List<CommentResponse> SortComments(List<CommentResponse> comments)
+    private List<CommentResponse> SortCommentByDate(List<CommentResponse> comments)
         => comments.OrderBy(c => c.Date).ToList();
 }
