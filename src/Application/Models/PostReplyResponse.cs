@@ -2,7 +2,7 @@
 
 namespace Application.Models;
 
-public record ReplyResponse(
+public record PostReplyResponse(
     int Id,
     int CommentId,
     User User,

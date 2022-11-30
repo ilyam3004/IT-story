@@ -6,6 +6,7 @@
         public static string PostRemoved = "Post successfully removed from your posts";
         public static string CommentRemoved = "Comment successfully removed";
         public static string ReplyRemoved = "Reply successfully removed";
+        public static string PostSaved = "Post successfully saved";
     }
 
     public class Article

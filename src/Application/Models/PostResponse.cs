@@ -1,9 +1,9 @@
 ﻿namespace Application.Models;
 
-public record PostResult(
-    int Id,
+public record PostResponse(
+    int PostId,
     int UserId,
     string Text,
     DateTime Date,
-    List<CommentResponse> Comments,
+    List<PostCommentResponse> Comments,
     int Likes);

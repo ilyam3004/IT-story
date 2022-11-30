@@ -1,4 +1,4 @@
 ﻿namespace Application.Models;
 
-public record Message(
+public record MessageResponse(
     string MessageText);

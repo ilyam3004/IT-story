@@ -5,20 +5,20 @@ namespace Application.Services;
 
 public interface IPostService
 {
-    Task<ErrorOr<List<PostResult>>> GetPosts(string token);
-    Task<ErrorOr<PostResult>> AddPost(string text, string token);
-    Task<ErrorOr<Message>> RemovePost(string token, int postId);
-    Task<ErrorOr<PostResult>> EditPost(int postId, string newText, string token);
-    Task<ErrorOr<List<PostResult>>> GetSavedPosts(string token);
+    Task<ErrorOr<List<PostResponse>>> GetPosts(string token);
+    Task<ErrorOr<PostResponse>> AddPost(string text, string token);
+    Task<ErrorOr<MessageResponse>> RemovePost(string token, int postId);
+    Task<ErrorOr<PostResponse>> EditPost(int postId, string newText, string token);
+    Task<ErrorOr<List<PostResponse>>> GetSavedPosts(string token);
 
-    Task<ErrorOr<PostResult>> SavePost(string token, int postId);
-    Task<ErrorOr<Message>> UnSavePost(string token, int postId);
-    Task<ErrorOr<PostResult>> LikePost(string token, int postId);
-    Task<ErrorOr<PostResult>> UnLikePost(string token, int postId);
-    Task<ErrorOr<List<PostResult>>> GetLikedPosts(string token);
+    Task<ErrorOr<MessageResponse>> SavePost(string token, int postId);
+    Task<ErrorOr<MessageResponse>> UnSavePost(string token, int postId);
+    Task<ErrorOr<PostResponse>> LikePost(string token, int postId);
+    Task<ErrorOr<PostResponse>> UnLikePost(string token, int postId);
+    Task<ErrorOr<List<PostResponse>>> GetLikedPosts(string token);
     Task<ErrorOr<List<UserLikedPost>>> GetPostLikes(int postId);
-    Task<ErrorOr<PostResult>> CommentPost(string token, int postId, string text);
-    Task<ErrorOr<PostResult>> Reply(string token, int userId, int commentId, string text);
-    Task<ErrorOr<Message>> RemoveReply(string token, int replyId);
-    Task<ErrorOr<Message>> RemoveComment(string token, int commentId);
+    Task<ErrorOr<PostResponse>> CommentPost(string token, int postId, string text);
+    Task<ErrorOr<PostResponse>> Reply(string token, int userId, int commentId, string text);
+    Task<ErrorOr<MessageResponse>> RemoveReply(string token, int replyId);
+    Task<ErrorOr<MessageResponse>> RemoveComment(string token, int commentId);
 }

@@ -1,6 +1,6 @@
 namespace Application.Models;
 
-public record ArticleResult(
+public record ArticleResponse(
     int Id,
     int UserId,
     string Title,

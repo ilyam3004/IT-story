@@ -20,7 +20,7 @@ public class ArticleService : IArticleService
         _articleRepository = articleRepository;
         _userRepository = userRepository;
     }
-    public async Task<ErrorOr<List<ArticleResult>>> GetUserArticles(string token)
+    public async Task<ErrorOr<List<ArticleResponse>>> GetUserArticles(string token)
     {
         if (_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -29,15 +29,15 @@ public class ArticleService : IArticleService
         if (articles.Count == 0)
             return Errors.Articles.ArticlesNotFound;
 
-        List<ArticleResult> userArticles = new();
+        List<ArticleResponse> userArticles = new();
 
         foreach (var article in articles)
-            userArticles.Add(await MapArticleResult(article));
+            userArticles.Add(await MapArticleResponse(article));
 
         return userArticles;
     }
 
-    public async Task<ErrorOr<ArticleResult>> AddArticle(string title, string text, string token)
+    public async Task<ErrorOr<ArticleResponse>> AddArticle(string title, string text, string token)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -53,10 +53,10 @@ public class ArticleService : IArticleService
         };
         var article = await _articleRepository.AddArticle(articleToAdd);
 
-        return await MapArticleResult(article);
+        return await MapArticleResponse(article);
     }
 
-    public async Task<ErrorOr<Message>> RemoveArticle(string token, int articleId)
+    public async Task<ErrorOr<MessageResponse>> RemoveArticle(string token, int articleId)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -71,10 +71,10 @@ public class ArticleService : IArticleService
 
         await _articleRepository.RemoveArticle(articleToRemove);
 
-        return new Message(Correct.Article.ArticleRemoved);
+        return new MessageResponse(Correct.Article.ArticleRemoved);
     }
 
-    public async Task<ErrorOr<ArticleResult>> EditArticleText(int articleId, string newText, string token)
+    public async Task<ErrorOr<ArticleResponse>> EditArticleText(int articleId, string newText, string token)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -89,10 +89,10 @@ public class ArticleService : IArticleService
         Article editedArticle = await _articleRepository
             .EditArticleText(articleToEdit, newText);
         
-        return await MapArticleResult(editedArticle);
+        return await MapArticleResponse(editedArticle);
     }
     
-    public async Task<ErrorOr<ArticleResult>> EditArticleTitle(int articleId, string newTitle, string token)
+    public async Task<ErrorOr<ArticleResponse>> EditArticleTitle(int articleId, string newTitle, string token)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -107,10 +107,10 @@ public class ArticleService : IArticleService
         Article editedArticle = await _articleRepository
             .EditArticleTitle(articleToEdit, newTitle);
         
-        return await MapArticleResult(editedArticle);
+        return await MapArticleResponse(editedArticle);
     }
 
-    public async Task<ErrorOr<ArticleResult>> LikeArticle(string token, int articleId, int score)
+    public async Task<ErrorOr<ArticleResponse>> LikeArticle(string token, int articleId, int score)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -135,10 +135,10 @@ public class ArticleService : IArticleService
                                     score,
                                     avgScore);
         
-        return await MapArticleResult(likedArticle);
+        return await MapArticleResponse(likedArticle);
     }
 
-    public async Task<ErrorOr<ArticleResult>> UnLikeArticle(string token, int articleId)
+    public async Task<ErrorOr<ArticleResponse>> UnLikeArticle(string token, int articleId)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -164,10 +164,10 @@ public class ArticleService : IArticleService
                                 _jwtTokenGenerator.ReadToken(token),
                                 avgScore);
         
-        return await MapArticleResult(unLikedArticle);
+        return await MapArticleResponse(unLikedArticle);
     }
 
-    public async Task<ErrorOr<List<ArticleResult>>> GetLikedArticles(string token)
+    public async Task<ErrorOr<List<ArticleResponse>>> GetLikedArticles(string token)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -176,14 +176,14 @@ public class ArticleService : IArticleService
         if (likes.Count == 0)
             return Errors.Articles.DontLikeAnyArticle;
 
-        List<ArticleResult> likedPosts = new();
+        List<ArticleResponse> likedPosts = new();
         foreach (var like in likes)
         {
             var article = await _articleRepository.GetArticleById(like.Article_id);
             if (article is null)
                 continue;
             
-            likedPosts.Add(await MapArticleResult(article));
+            likedPosts.Add(await MapArticleResponse(article));
         }
 
         return likedPosts;
@@ -210,7 +210,7 @@ public class ArticleService : IArticleService
         return users;
     }
 
-    public async Task<ErrorOr<ArticleResult>> CommentArticle(string token, int articleId, string text)
+    public async Task<ErrorOr<ArticleResponse>> CommentArticle(string token, int articleId, string text)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -230,10 +230,10 @@ public class ArticleService : IArticleService
             Is_author = (userId == article.User_id)
         });
         
-        return await MapArticleResult(article);
+        return await MapArticleResponse(article);
     }
 
-    public async Task<ErrorOr<ArticleResult>> Reply(string token, int userId, int commentId, string text)
+    public async Task<ErrorOr<ArticleResponse>> Reply(string token, int userId, int commentId, string text)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -260,10 +260,10 @@ public class ArticleService : IArticleService
             Is_author = (article.User_id == replierId)
         });
 
-        return await MapArticleResult(article);
+        return await MapArticleResponse(article);
     }
 
-    public async Task<ErrorOr<Message>> RemoveReply(string token, int replyId)
+    public async Task<ErrorOr<MessageResponse>> RemoveReply(string token, int replyId)
     {
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -278,10 +278,10 @@ public class ArticleService : IArticleService
 
         await _articleRepository.RemoveReply(replyToRemove);
 
-        return new Message(Correct.Post.ReplyRemoved);
+        return new MessageResponse(Correct.Post.ReplyRemoved);
     }
 
-    public async Task<ErrorOr<Message>> RemoveComment(string token, int commentId)
+    public async Task<ErrorOr<MessageResponse>> RemoveComment(string token, int commentId)
     {
         if (_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
@@ -296,15 +296,15 @@ public class ArticleService : IArticleService
 
         await _articleRepository.RemoveComment(commentToRemove);
 
-        return new Message(Correct.Post.CommentRemoved);
+        return new MessageResponse(Correct.Post.CommentRemoved);
     }
     
-    private async Task<ArticleResult> MapArticleResult(Article article)
+    private async Task<ArticleResponse> MapArticleResponse(Article article)
     {
         List<ArticleCommentResponse> comments = SortCommentsByDate(
-            await MapArticleCommentResult(await _articleRepository.GetComments(article.Article_id)));
+            await MapArticleCommentResponse(await _articleRepository.GetComments(article.Article_id)));
         
-        return new ArticleResult(
+        return new ArticleResponse(
             article.Article_id,
             article.User_id,
             article.Title,
@@ -315,12 +315,12 @@ public class ArticleService : IArticleService
             article.Avg_score);
     }
 
-    private async Task<List<ArticleCommentResponse>> MapArticleCommentResult(List<ArticleComment> dbArticleComments)
+    private async Task<List<ArticleCommentResponse>> MapArticleCommentResponse(List<ArticleComment> dbArticleComments)
     {
         List<ArticleCommentResponse> articleComments = new();
         foreach (var dbComment in dbArticleComments)
         {
-            List<ArticleReplyResponse> articleReplies = await MapArticleReplyResult(
+            List<ArticleReplyResponse> articleReplies = await MapArticleReplyResponse(
                 await _articleRepository.GetReplies(dbComment.Comment_id));
             
             articleComments.Add(new ArticleCommentResponse(
@@ -336,7 +336,7 @@ public class ArticleService : IArticleService
         return articleComments;
     }
 
-    private async Task<List<ArticleReplyResponse>> MapArticleReplyResult(List<ArticleReply> dbArticleReplies)
+    private async Task<List<ArticleReplyResponse>> MapArticleReplyResponse(List<ArticleReply> dbArticleReplies)
     {
         List<ArticleReplyResponse> articleReplies = new();
 

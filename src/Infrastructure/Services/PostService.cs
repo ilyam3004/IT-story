@@ -22,11 +22,8 @@ public class PostService : IPostService
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<List<PostResult>>> GetPosts(string token)
+    public async Task<ErrorOr<List<PostResponse>>> GetPosts(string token)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -34,51 +31,15 @@ public class PostService : IPostService
         if (posts.Count == 0)
             return Errors.Posts.PostsNotFound;
 
-        List<PostResult> userPosts = new();
+        List<PostResponse> userPosts = new();
         foreach (var post in posts)
-        {
-            var dbComments = await _postRepository.GetComments(post.Post_id);
-            List<CommentResponse> comments = new();
-            foreach (var item in dbComments)
-            {
-                var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-                var replies = new List<ReplyResponse>();
-
-                foreach (var dbReply in dbReplies)
-                    replies.Add(new ReplyResponse(
-                        dbReply.Reply_id,
-                        dbReply.Comment_id,
-                        (await _userRepository.GetUserById(dbReply.User_id))!,
-                        (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                        dbReply.Text,
-                        dbReply.Date));
-
-                comments.Add(new CommentResponse(
-                    item.Comment_id,
-                    item.Post_id,
-                    item.User_id,
-                    item.Text,
-                    item.Date,
-                    replies));
-            }
-
-            userPosts.Add(new PostResult(
-                post.Post_id,
-                post.User_id,
-                post.Text,
-                post.Date,
-                SortCommentByDate(comments),
-                post.Likes_count));
-        }
+            userPosts.Add(await MapPostResponse(post));
 
         return userPosts;
     }
 
-    public async Task<ErrorOr<PostResult>> AddPost(string text, string token)
+    public async Task<ErrorOr<PostResponse>> AddPost(string text, string token)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -90,45 +51,12 @@ public class PostService : IPostService
             Likes_count = 0
         };
         var post = await _postRepository.AddPost(postToAdd);
-        var dbComments = await _postRepository.GetComments(post.Post_id);
-        List<CommentResponse> comments = new();
-
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-            var replies = new List<ReplyResponse>();
-
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ReplyResponse(
-                    dbReply.Reply_id,
-                    dbReply.Comment_id,
-                    (await _userRepository.GetUserById(dbReply.User_id))!,
-                    (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                    dbReply.Text,
-                    dbReply.Date));
-
-            comments.Add(new CommentResponse(
-                item.Comment_id,
-                item.Post_id,
-                item.User_id,
-                item.Text,
-                item.Date,
-                replies));
-        }
-        return new PostResult(
-            post.Post_id,
-            post.User_id,
-            post.Text,
-            post.Date,
-            SortCommentByDate(comments),
-            0);
+        
+        return await MapPostResponse(post);
     }
 
-    public async Task<ErrorOr<Message>> RemovePost(string token, int postId)
+    public async Task<ErrorOr<MessageResponse>> RemovePost(string token, int postId)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -142,14 +70,11 @@ public class PostService : IPostService
 
         await _postRepository.RemovePost(postToRemove);
 
-        return new Message(Correct.Post.PostRemoved);
+        return new MessageResponse(Correct.Post.PostRemoved);
     }
 
-    public async Task<ErrorOr<PostResult>> EditPost(int postId, string newText, string token)
+    public async Task<ErrorOr<PostResponse>> EditPost(int postId, string newText, string token)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -163,44 +88,11 @@ public class PostService : IPostService
         var editedPost = await _postRepository.EditPost(postToEdit, newText);
         var dbComments = await _postRepository.GetComments(editedPost.Post_id);
 
-        List<CommentResponse> comments = new();
-
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-            var replies = new List<ReplyResponse>();
-
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ReplyResponse(
-                    dbReply.Reply_id,
-                    dbReply.Comment_id,
-                    (await _userRepository.GetUserById(dbReply.User_id))!,
-                    (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                    dbReply.Text,
-                    dbReply.Date));
-
-            comments.Add(new CommentResponse(
-                item.Comment_id,
-                item.Post_id,
-                item.User_id,
-                item.Text,
-                item.Date,
-                replies));
-        }
-        return new PostResult(
-            editedPost.Post_id,
-            editedPost.User_id,
-            editedPost.Text,
-            editedPost.Date,
-            SortCommentByDate(comments),
-            editedPost.Likes_count);
+        return await MapPostResponse(editedPost);
     }
 
-    public async Task<ErrorOr<List<PostResult>>> GetSavedPosts(string token)
+    public async Task<ErrorOr<List<PostResponse>>> GetSavedPosts(string token)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -209,54 +101,21 @@ public class PostService : IPostService
         if (posts.Count == 0)
             return Errors.Posts.SavedPostsNotfound;
 
-        List<PostResult> savedPosts = new();
+        List<PostResponse> savedPosts = new();
         foreach (var savedPost in posts)
         {
             var post = await _postRepository.GetPostById(savedPost.Post_id);
             if (post is null)
                 continue;
 
-            var dbComments = await _postRepository.GetComments(post.Post_id);
-            List<CommentResponse> comments = new();
-            foreach (var item in dbComments)
-            {
-                var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-                var replies = new List<ReplyResponse>();
-
-                foreach (var dbReply in dbReplies)
-                    replies.Add(new ReplyResponse(
-                        dbReply.Reply_id,
-                        dbReply.Comment_id,
-                        (await _userRepository.GetUserById(dbReply.User_id))!,
-                        (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                        dbReply.Text,
-                        dbReply.Date));
-
-                comments.Add(new CommentResponse(
-                    item.Comment_id,
-                    item.Post_id,
-                    item.User_id,
-                    item.Text,
-                    item.Date,
-                    replies));
-            }
-            savedPosts.Add(new PostResult(
-                post.Post_id,
-                post.User_id,
-                post.Text,
-                post.Date,
-                SortCommentByDate(comments),
-                post.Likes_count));
+            savedPosts.Add(await MapPostResponse(post));
         }
 
         return savedPosts;
     }
 
-    public async Task<ErrorOr<PostResult>> SavePost(string token, int postId)
+    public async Task<ErrorOr<MessageResponse>> SavePost(string token, int postId)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -265,56 +124,22 @@ public class PostService : IPostService
         if (postToSave is null)
             return Errors.Posts.PostNotFound;
 
-        var savedPost = await _postRepository.GetSavedPostById(postId);
+        FavouritePost? savedPost = await _postRepository.GetSavedPostById(postId);
 
         if (savedPost is not null)
             return Errors.Posts.PostAlreadySaved;
-
 
         await _postRepository.SavePost(new FavouritePost
         {
             Post_id = postToSave.Post_id,
             User_id = _jwtTokenGenerator.ReadToken(token)
         });
-        var dbComments = await _postRepository.GetComments(postId);
-        List<CommentResponse> comments = new();
 
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-            var replies = new List<ReplyResponse>();
-
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ReplyResponse(
-                    dbReply.Reply_id,
-                    dbReply.Comment_id,
-                    (await _userRepository.GetUserById(dbReply.User_id))!,
-                    (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                    dbReply.Text,
-                    dbReply.Date));
-
-            comments.Add(new CommentResponse(
-                item.Comment_id,
-                item.Post_id,
-                item.User_id,
-                item.Text,
-                item.Date,
-                replies));
-        }
-        return new PostResult(
-            postToSave.Post_id,
-            postToSave.User_id,
-            postToSave.Text,
-            postToSave.Date,
-            SortCommentByDate(comments),
-            postToSave.Likes_count);
+        return new MessageResponse(Correct.Post.PostSaved);
     }
 
-    public async Task<ErrorOr<Message>> UnSavePost(string token, int postId)
+    public async Task<ErrorOr<MessageResponse>> UnSavePost(string token, int postId)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -327,14 +152,12 @@ public class PostService : IPostService
             return Errors.Posts.SavedPostNotfound;
 
         await _postRepository.UnSavePost(postToUnSave);
-        return new Message(Correct.Post.PostUnSaved);
+
+        return new MessageResponse(Correct.Post.PostUnSaved);
     }
 
-    public async Task<ErrorOr<PostResult>> LikePost(string token, int postId)
+    public async Task<ErrorOr<PostResponse>> LikePost(string token, int postId)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -348,47 +171,13 @@ public class PostService : IPostService
         if (like is not null)
             return Errors.Posts.AlreadyLiked;
 
-
         var likedPost = await _postRepository.LikePost(post, _jwtTokenGenerator.ReadToken(token));
-        var dbComments = await _postRepository.GetComments(likedPost.Post_id);
-        List<CommentResponse> comments = new();
 
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-            var replies = new List<ReplyResponse>();
-
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ReplyResponse(
-                    dbReply.Reply_id,
-                    dbReply.Comment_id,
-                    (await _userRepository.GetUserById(dbReply.User_id))!,
-                    (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                    dbReply.Text,
-                    dbReply.Date));
-
-            comments.Add(new CommentResponse(
-                item.Comment_id,
-                item.Post_id,
-                item.User_id,
-                item.Text,
-                item.Date,
-                replies));
-        }
-        return new PostResult(
-            post.Post_id,
-            post.User_id,
-            post.Text,
-            post.Date,
-            SortCommentByDate(comments),
-            post.Likes_count);
+        return await MapPostResponse(likedPost);
     }
 
-    public async Task<ErrorOr<PostResult>> UnLikePost(string token, int postId)
+    public async Task<ErrorOr<PostResponse>> UnLikePost(string token, int postId)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -402,45 +191,12 @@ public class PostService : IPostService
             return Errors.Posts.PostWasNotLiked;
 
         var unLikedPost = await _postRepository.UnLikePost(post, _jwtTokenGenerator.ReadToken(token));
-        var dbComments = await _postRepository.GetComments(unLikedPost.Post_id);
-        List<CommentResponse> comments = new();
 
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-            var replies = new List<ReplyResponse>();
-
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ReplyResponse(
-                    dbReply.Reply_id,
-                    dbReply.Comment_id,
-                    (await _userRepository.GetUserById(dbReply.User_id))!,
-                    (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                    dbReply.Text,
-                    dbReply.Date));
-
-            comments.Add(new CommentResponse(
-                item.Comment_id,
-                item.Post_id,
-                item.User_id,
-                item.Text,
-                item.Date,
-                replies));
-        }
-        return new PostResult(
-            post.Post_id,
-            post.User_id,
-            post.Text,
-            post.Date,
-            SortCommentByDate(comments),
-            post.Likes_count);
+        return await MapPostResponse(unLikedPost);
     }
 
-    public async Task<ErrorOr<List<PostResult>>> GetLikedPosts(string token)
+    public async Task<ErrorOr<List<PostResponse>>> GetLikedPosts(string token)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -448,47 +204,16 @@ public class PostService : IPostService
         if (likes.Count == 0)
             return Errors.Posts.DontLikeAnyPost;
 
-        List<PostResult> likedPosts = new();
+        List<PostResponse> likedPosts = new();
         foreach (var like in likes)
         {
             var post = await _postRepository.GetPostById(like.Post_id);
             if (post is null)
                 continue;
 
-            var dbComments = await _postRepository.GetComments(post.Post_id);
-            List<CommentResponse> comments = new();
-
-            foreach (var item in dbComments)
-            {
-                var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-                var replies = new List<ReplyResponse>();
-
-                foreach (var dbReply in dbReplies)
-                    replies.Add(new ReplyResponse(
-                        dbReply.Reply_id,
-                        dbReply.Comment_id,
-                        (await _userRepository.GetUserById(dbReply.User_id))!,
-                        (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                        dbReply.Text,
-                        dbReply.Date));
-
-                comments.Add(new CommentResponse(
-                    item.Comment_id,
-                    item.Post_id,
-                    item.User_id,
-                    item.Text,
-                    item.Date,
-                    replies));
-            }
-            likedPosts.Add(new PostResult(
-                post.Post_id,
-                post.User_id,
-                post.Text,
-                post.Date,
-                SortCommentByDate(comments),
-                post.Likes_count));
+            likedPosts.Add(await MapPostResponse(post));
         }
-
+        
         return likedPosts;
     }
 
@@ -514,11 +239,8 @@ public class PostService : IPostService
         return users;
     }
 
-    public async Task<ErrorOr<PostResult>> CommentPost(string token, int postId, string text)
+    public async Task<ErrorOr<PostResponse>> CommentPost(string token, int postId, string text)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -534,45 +256,11 @@ public class PostService : IPostService
             User_id = _jwtTokenGenerator.ReadToken(token)
         });
 
-        var dbComments = await _postRepository.GetComments(post.Post_id);
-        List<CommentResponse> comments = new();
-
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-            var replies = new List<ReplyResponse>();
-
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ReplyResponse(
-                    dbReply.Reply_id,
-                    dbReply.Comment_id,
-                    (await _userRepository.GetUserById(dbReply.User_id))!,
-                    (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                    dbReply.Text,
-                    dbReply.Date));
-
-            comments.Add(new CommentResponse(
-                item.Comment_id,
-                item.Post_id,
-                item.User_id,
-                item.Text,
-                item.Date,
-                replies));
-        }
-        return new PostResult(
-            post.Post_id,
-            post.User_id,
-            post.Text,
-            post.Date,
-            SortCommentByDate(comments),
-            post.Likes_count);
+        return await MapPostResponse(post);
     }
 
-    public async Task<ErrorOr<Message>> RemoveComment(string token, int commentId)
+    public async Task<ErrorOr<MessageResponse>> RemoveComment(string token, int commentId)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -586,17 +274,16 @@ public class PostService : IPostService
 
         await _postRepository.RemoveComment(commentToRemove);
 
-        return new Message(Correct.Post.CommentRemoved);
+        return new MessageResponse(Correct.Post.CommentRemoved);
     }
 
-    public async Task<ErrorOr<PostResult>> Reply(string token, int userId, int commentId, string text)
+    public async Task<ErrorOr<PostResponse>> Reply(string token, int userId, int commentId, string text)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
+
         var comment = await _postRepository.GetCommentById(commentId);
+        
         if (comment is null)
             return Errors.Posts.CommentNotFound;
 
@@ -611,47 +298,14 @@ public class PostService : IPostService
             Date = DateTime.UtcNow,
             Text = text
         });
-        var post = await _postRepository.GetPostById(comment!.Post_id);
 
-        var dbComments = await _postRepository.GetComments(post!.Post_id);
-        List<CommentResponse> comments = new();
+        var post = await _postRepository.GetPostById(comment.Post_id);
 
-        foreach (var item in dbComments)
-        {
-            var dbReplies = SortRepliesByDate(await _postRepository.GetReplies(item.Comment_id));
-            var replies = new List<ReplyResponse>();
-
-            foreach (var dbReply in dbReplies)
-                replies.Add(new ReplyResponse(
-                    dbReply.Reply_id,
-                    dbReply.Comment_id,
-                    (await _userRepository.GetUserById(dbReply.User_id))!,
-                    (await _userRepository.GetUserById(dbReply.Replier_id))!,
-                    dbReply.Text,
-                    dbReply.Date));
-
-            comments.Add(new CommentResponse(
-                item.Comment_id,
-                item.Post_id,
-                item.User_id,
-                item.Text,
-                item.Date,
-                replies));
-        }
-        return new PostResult(
-            post.Post_id,
-            post.User_id,
-            post.Text,
-            post.Date,
-            SortCommentByDate(comments),
-            post.Likes_count);
+        return await MapPostResponse(post!);
     }
 
-    public async Task<ErrorOr<Message>> RemoveReply(string token, int replyId)
+    public async Task<ErrorOr<MessageResponse>> RemoveReply(string token, int replyId)
     {
-        if (token == String.Empty)
-            return Errors.Authentication.TokenNotFound;
-
         if (!_jwtTokenGenerator.CanReadToken(token))
             return Errors.Authentication.WrongToken;
 
@@ -665,14 +319,67 @@ public class PostService : IPostService
 
         await _postRepository.RemoveReply(replyToRemove);
 
-        return new Message(Correct.Post.ReplyRemoved);
+        return new MessageResponse(Correct.Post.ReplyRemoved);
     }
 
-    private List<PostReply> SortRepliesByDate(List<PostReply> replies)
+    private async Task<PostResponse> MapPostResponse(Post post)
+    {
+        List<PostCommentResponse> comments = await MapPostCommentResponse(
+            await _postRepository.GetComments(post.Post_id));
+
+        return new PostResponse(
+            post.Post_id,
+            post.User_id,
+            post.Text,
+            post.Date,
+            comments,
+            post.Likes_count);
+    }
+
+    private async Task<List<PostCommentResponse>> MapPostCommentResponse(List<PostComment> dbPostComments)
+    {
+        List<PostCommentResponse> postComments = new();
+
+        foreach (var dbComment in dbPostComments)
+        {
+            List<PostReplyResponse> postReplies = await MapPostReplyResponse(
+                await _postRepository.GetReplies(dbComment.Comment_id));
+
+            postComments.Add(new PostCommentResponse(
+                dbComment.Comment_id,
+                dbComment.Post_id,
+                dbComment.User_id,
+                dbComment.Text,
+                dbComment.Date,
+                postReplies));
+        }
+
+        return SortCommentsByDate(postComments);
+    }
+
+    private async Task<List<PostReplyResponse>> MapPostReplyResponse(List<PostReply> dbPostReplies)
+    {
+        List<PostReplyResponse> postReplies = new();
+
+        foreach (var dbReply in dbPostReplies)
+            postReplies.Add(new PostReplyResponse(
+                dbReply.Reply_id,
+                dbReply.Comment_id,
+                (await _userRepository.GetUserById(dbReply.User_id))!,
+                (await _userRepository.GetUserById(dbReply.Replier_id))!,
+                dbReply.Text,
+                dbReply.Date));
+
+        return SortRepliesByDate(postReplies);
+    }
+
+    private List<PostReplyResponse> SortRepliesByDate(List<PostReplyResponse> replies)
         => replies
             .OrderBy(r => r.Date)
             .ToList();
 
-    private List<CommentResponse> SortCommentByDate(List<CommentResponse> comments)
-        => comments.OrderBy(c => c.Date).ToList();
+    private List<PostCommentResponse> SortCommentsByDate(List<PostCommentResponse> comments)
+        => comments
+            .OrderBy(c => c.Date)
+            .ToList();
 }
